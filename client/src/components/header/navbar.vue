@@ -1,82 +1,126 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light">
-    <div class="container">
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarsExample07"
-        aria-controls="navbarsExample07"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarsExample07">
-        <ul class="navbar-nav mr-auto">
-          <li
-            class="nav-item"
-            v-for="item in navi"
-            :key="item.id"
-            :class="{'active': router.currentParent === item.name || router.currentGrandParent === item.name}"
-            @click="$router.push({ name: item.link, params: item.params })"
-          >
-            <i class="heroic-icon" :class="item.icon" />
-            {{ item.name }}
-          </li>
-        </ul>
+  <div>
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <div class="container">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarsExample07"
+          aria-controls="navbarsExample07"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarsExample07">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item" v-for="(r,i) in routes" :key="i">
+              <router-link :to="r.path" class="nav-link">
+                <i :class="r.icon" />
+                {{r.name}}
+              </router-link>
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
-  </nav>
+    </nav>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarsExample07"
+          aria-controls="navbarsExample07"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarsExample07">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item" v-for="(r,i) in routeChildren" :key="i">
+              <router-link
+                :to="r.path"
+                class="nav-link"
+                exact-active-class="text-primary"
+              >{{r.name}}</router-link>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
 </template>
 
 <script>
 export default {
   data() {
     return {
-      router: {
-        currentRoute: null,
-        currentParent: null,
-        currentGrandParent: null
-      },
-      navi: [
+      children: this.$router.currentRoute,
+      routes: [
         {
+          path: "/home",
           name: "Home",
-          link: "home",
-          icon: "home",
+          icon: "fas fa-home",
           children: [
             {
-              name: "Timeline",
-              link: "Home.Timeline"
+              path: "/home",
+              name: "Home"
             },
             {
-              name: "Settings",
-              link: "Home.Settings"
+              path: "/logout",
+              name: "Logoutt"
+            }
+          ]
+        },
+        {
+          path: "/home",
+          name: "Community",
+          icon: "fas fa-hotel",
+          children: [
+            {
+              path: "/logoutt",
+              name: "Logouttt"
             }
           ]
         }
       ]
     };
   },
-  components: {},
-  mounted() {
-    this.setRoute(this.$router.currentRoute);
-  },
-  methods: {
-    setRoute(router) {
-      console.log(router);
-      this.router.currentRoute = router.name;
-      this.router.currentParent =
-        router.matched[1].name === router.name
-          ? router.matched[0].name
-          : router.matched[1].name;
-      this.router.currentGrandParent =
-        router.matched[1].name === router.name ? null : router.matched[0].name;
+  computed: {
+    routeChildren() {
+      const matched = this.$route.matched;
+      const routePath = matched[matched.length - 1].path;
+      return this.getChildrenByPath(routePath);
     }
   },
-  watch: {
-    $route(to, from) {
-      this.setRoute(to);
+  methods: {
+    getChildrenByPath(path) {
+      let children = this.routes;
+
+      if (path) {
+        // clean up empty elements
+        let chunks = path.split("/");
+        chunks = chunks.filter(chunk => chunk !== "");
+
+        if (chunks.length) {
+          chunks.forEach((chunk, index) => {
+            let path = chunk;
+            if (index === 0) path = `/${path}`;
+
+            if (children) {
+              const found = children.find(child => child.path === path);
+              if (found) {
+                children = found.children;
+              }
+            }
+          });
+        }
+      }
+
+      return children;
     }
   }
 };

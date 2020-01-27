@@ -8,6 +8,7 @@ export default [
     component: components.Login,
     meta: {
       layout: 'processor',
+      visible: false,
       middleware: [
         guest
       ]
@@ -19,6 +20,7 @@ export default [
     component: components.Register,
     meta: {
       layout: 'processor',
+      visible: false,
       middleware: [
         guest
       ]

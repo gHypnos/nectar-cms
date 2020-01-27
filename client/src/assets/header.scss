@@ -1,13 +1,54 @@
 $imgs: '/assets/images';
 header{
     &.nectar-header {
-        background-image: url($imgs + '/header.png');
-        background-position: left bottom;
+        image-rendering: pixelated;
+        background: url($imgs + '/header.png') left bottom/100%;
     }
     .navbar {
         &.navbar-light {
+            font-size: 24px;
             background:rgba(255,255,255, 0.9);
+            .nav-item {
+                padding-right: 48px;
+                .nav-link {
+                    color:#036;
+                    i {
+                        font-size: 20px;
+                        color:#069;
+                    }
+                }
+            }
         }
-        margin-bottom:10px
+        &.navbar-dark {
+            font-size: 18px;
+            background-color: #001726;
+            color:#fff;
+            padding:0;
+            .nav-item {
+                height: 50px;
+                display: block;
+                .nav-link {
+                    padding:0;
+                    display: block;
+                    line-height: 50px;
+                    .text-primary {
+                        color: #6796b1 !important;
+                    }  
+                }  
+                &:not(:last-child){
+                   :after {
+                        background-color: #406180;
+                        content: '';
+                        display: inline-block;
+                        height: 1em;
+                        margin-left: 24px;
+                        margin-right: 24px;
+                        vertical-align: text-bottom;
+                        width: 2px;
+                    } 
+                }
+            }
+        }
     }
+    margin-bottom:10px;
 }
