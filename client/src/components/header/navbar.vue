@@ -22,6 +22,14 @@
               </router-link>
             </li>
           </ul>
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <router-link class="btn btn-warning" to="/client">
+                Enter Hotel
+                <i class="fas fa-hotel ml-2" />
+              </router-link>
+            </li>
+          </ul>
         </div>
       </div>
     </nav>
@@ -41,11 +49,7 @@
         <div class="collapse navbar-collapse" id="navbarsExample07">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item" v-for="(r,i) in routeChildren" :key="i">
-              <router-link
-                :to="r.path"
-                class="nav-link"
-                exact-active-class="text-primary"
-              >{{r.name}}</router-link>
+              <router-link :to="r.path" class="nav-link">{{r.name}}</router-link>
             </li>
           </ul>
         </div>
@@ -68,10 +72,6 @@ export default {
             {
               path: "/home",
               name: "Home"
-            },
-            {
-              path: "/logout",
-              name: "Logoutt"
             }
           ]
         },

@@ -18,7 +18,7 @@ export default class LoginController {
         const userRepository = getRepository(UserEntity);
         let user: UserEntity;
         try {
-            user = await userRepository.findOne({ select: ['username', 'password'], where: { username } });
+            user = await userRepository.findOne({ select: ['username', 'password', 'id'], where: { username } });
         } catch (error) {
             res.status(401).json();
             return;
@@ -32,7 +32,7 @@ export default class LoginController {
 
         //Sing JWT, valid for 1 hour
         const token = jwt.sign(
-            { userId: user.id, username: user.username },
+            { id: user.id, username: user.username, data: 'data' },
             config.jwtSecret,
             { expiresIn: "1h" }
         );

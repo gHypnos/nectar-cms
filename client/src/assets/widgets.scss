@@ -1,0 +1,23 @@
+$imgs: '/assets/images';
+.me-widget {
+    box-shadow: 0 0 5px 1px rgba(0,0,0,0.3);
+    border:2px solid rgba(255,255,255,.1);
+    margin:0;
+    margin-bottom:15px;
+    border-radius: 5px;
+    overflow:auto;
+    .me-enter-hotel {
+        background: url($imgs + '/hotel.png') center;
+        .btn {
+            box-shadow: 0 3px 0 2px rgba(0,0,0,0.3);
+        }
+    }
+    .me-details {
+        background-color: #0c3a65;
+    }
+    .partial {
+        &:not(:last-child){
+            border-right:2px solid rgba(255,255,255,.1);
+        }
+    }
+}

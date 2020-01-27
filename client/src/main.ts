@@ -1,16 +1,10 @@
-import axios from 'axios';
 import Vue from 'vue';
-import * as Config from '../config.json';
+import API from './api';
 import App from './App.vue';
 import router from './router';
 
-var axiosInstance = axios.create({
-  baseURL: Config.api
-  /* other custom settings */
-});
-
 Vue.config.productionTip = false
-Vue.prototype.$http = axiosInstance
+Vue.prototype.$http = API
 Vue.prototype.router = router;
 const token = localStorage.getItem('token');
 

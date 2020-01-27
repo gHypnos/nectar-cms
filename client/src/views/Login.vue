@@ -62,8 +62,6 @@ export default {
   methods: {
     async login() {
       try {
-        this.loading = true;
-        this.submitted = true;
         await store.Session.dispatch("login", this.user);
         this.$router.push({ name: "Home" });
       } catch (e) {}

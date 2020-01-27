@@ -10,6 +10,10 @@
         background-color: #00813e;
         border-color: #8eda55;
     }
+    &.btn-warning {
+        background-color: #ffb900;
+    border-color: #ffea00;
+    }
     &:hover {
         filter: brightness(1.1);
     }

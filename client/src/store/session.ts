@@ -1,7 +1,6 @@
-import axios from 'axios';
 import Vue from 'vue';
 import Vuex from 'vuex';
-import * as Config from '../../config.json';
+import API from '../api';
 
 Vue.use(Vuex)
 
@@ -20,9 +19,17 @@ const getters = {
   }
 };
 const actions = {
+  load: async (context: any) => {
+    try {
+      await context.commit('loadSession')
+      return Promise.resolve()
+    } catch (e) {
+      return Promise.reject(e)
+    }
+  },
   login: async (commit: any, user: any) => {
     try {
-      let result = await axios({ url: Config.api + 'authentication/login', data: user, method: 'POST' })
+      let result = await API.post('/authentication/login', user);
 
       let session = {
         status: true,
@@ -31,9 +38,10 @@ const actions = {
       }
 
       localStorage.setItem('token', session.token)
-      axios.defaults.headers.common['Authorization'] = session.token
+      API.defaults.headers.common['Authorization'] = session.token
       commit.commit("errors", '');
       commit.commit('auth_success', session)
+
       return Promise.resolve()
     } catch (e) {
       commit.commit("errors", "Invalid credentials");
@@ -42,11 +50,21 @@ const actions = {
   },
   logout(commit: any) {
     commit.commit('logout')
+    console.log('reached')
     localStorage.removeItem('token')
-    delete axios.defaults.headers.common['Authorization'];
+    delete API.defaults.headers.common['Authorization'];
   }
 };
 const mutations = {
+  loadSession: async (state: any) => {
+    let session = localStorage.getItem('token')
+    API.defaults.headers.common['Authorization'] = session
+
+    if (session) {
+      state.loaded = true
+    }
+    return Promise.resolve()
+  },
   auth_request(state: any) {
     state.status = 'loading';
   },

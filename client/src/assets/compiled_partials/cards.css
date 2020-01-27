@@ -1,2 +1,2 @@
-.card{box-shadow:0 0 5px 1px rgba(0,0,0,0.3)}.card.card-blue{background-color:#0b6395;border:3px solid #2685bc}.card.card-blue .card-header{background-color:#0e3955;color:#fff}.card.card-blue.rnd-lg{border-radius:10px}.card.card-blue.rnd-lg .card-header{border-radius:8px}.card.card-blue .card-body{color:#fff}
+.card{box-shadow:0 0 5px 1px rgba(0,0,0,0.3)}.card.card-blue{background-color:#0b6395;border:3px solid #2685bc;margin-bottom:15px}.card.card-blue .card-header{background-color:#0e3955;color:#fff}.card.card-blue.rnd-lg{border-radius:10px}.card.card-blue.rnd-lg .card-header{border-radius:8px}.card.card-blue .card-body{color:#fff}
 /*# sourceMappingURL=cards.css.map */
