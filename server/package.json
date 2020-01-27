@@ -1,0 +1,33 @@
+{
+  "name": "nectar",
+  "version": "1.0.0",
+  "description": "Habbo CMS",
+  "main": "index.js",
+  "scripts": {
+    "start:dev": "ts-node-dev --respawn --transpileOnly ./src/main.ts"
+  },
+  "keywords": [
+    "habbo"
+  ],
+  "author": "Hypnos",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "class-validator": "^0.11.0",
+    "cookie-session": "^1.4.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mysql2": "^2.1.0",
+    "typeorm": "^0.2.22",
+    "typescript": "^3.7.5",
+    "uuid": "^3.4.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.2",
+    "@types/node": "^13.5.0",
+    "ts-node": "^8.6.2",
+    "ts-node-dev": "^1.0.0-pre.44"
+  }
+}
