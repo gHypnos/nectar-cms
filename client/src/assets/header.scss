@@ -1,0 +1,13 @@
+$imgs: '/assets/images';
+header{
+    &.nectar-header {
+        background-image: url($imgs + '/header.png');
+        background-position: left bottom;
+    }
+    .navbar {
+        &.navbar-light {
+            background:rgba(255,255,255, 0.9);
+        }
+        margin-bottom:10px
+    }
+}
