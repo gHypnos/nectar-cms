@@ -4,7 +4,7 @@ import guest from './middleware/guest';
 export default [
   {
     path: '/',
-    name: 'login',
+    name: 'Login',
     component: components.Login,
     meta: {
       title: "Login",
@@ -17,7 +17,7 @@ export default [
   },
   {
     path: '/register',
-    name: 'register',
+    name: 'Legister',
     component: components.Register,
     meta: {
       title: "Register",

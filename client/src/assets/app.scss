@@ -14,21 +14,19 @@ body {
         bottom:0;
         left:0;
         right:0;
-        background-color: rgba(12, 58, 101,.9);
+        background-color: rgba(12, 58, 101,.99);
         z-index: 9999999;
         color:#fff;
         .loading-spinner{
             background-image:url("/assets/images/sprite.png");
-            background-position:-158px -131px;
-            width:32px;
-            height:32px;
+            background-position: -299px -200px;
+            width: 68px;
+            height: 68px;
             animation:rotating 1s linear infinite;
             margin:0 auto 10px
         }
         .loading-bar {
             width:100vw;
-            border-top:1px solid #ccc;
-            border-bottom:1px solid #ccc;
             height:15px;
             box-shadow:0 0 5px  1px rgba(0,0,0,.3);
             background-color: #001726;
@@ -36,7 +34,7 @@ body {
                 transition: width 1s ease-in;
                 height:100%;
                 width:0;
-                background:#fff;
+                background:rgba(255,255,255,.1);
             }
         }
     }

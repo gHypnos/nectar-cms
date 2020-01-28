@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import * as jwt from "jsonwebtoken";
 import * as config from '../../../config.json';
+import CheckController from './auth/CheckController';
 import ClientController from './auth/ClientController';
 import LoginController from './auth/LoginController';
 import SettingsController from './nectar/SettingsController';
@@ -22,6 +23,7 @@ export default class HttpRoutes {
         });
         this.router.post('/authentication/login', LoginController.index);
         this.router.get('/authentication/Client', ClientController.index);
+        this.router.get('/authentication/check', CheckController.index);
 
         return this.router;
     }

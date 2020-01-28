@@ -1,7 +1,7 @@
 <template>
-  <div class="container h-100" id="hi">
-    <div class="row d-flex h-100 justify-content-center">
+  <b-container class="h-100">
+    <b-row class="justify-content-center h-100">
       <router-view />
-    </div>
-  </div>
+    </b-row>
+  </b-container>
 </template>

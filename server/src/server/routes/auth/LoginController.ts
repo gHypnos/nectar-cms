@@ -33,7 +33,7 @@ export default class LoginController {
         const token = jwt.sign(
             { id: user.id, username: user.username, data: 'data' },
             config.jwtSecret,
-            { expiresIn: "1h" }
+            { expiresIn: "3h" }
         );
 
 

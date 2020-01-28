@@ -10,6 +10,8 @@ import Processor from "./layouts/processor";
 import App from "./layouts/app";
 import store from "./store";
 import Loading from "./components/loading";
+import router from "./router";
+import API from "./api";
 
 export default {
   data() {
@@ -21,21 +23,23 @@ export default {
     app: App
     // define as many layouts you want for the application
   },
-  methods: {},
   computed: {
     layout() {
       return store.main.getters.layout;
     }
   },
-  created: function() {
-    this.$http.interceptors.response.use(undefined, function(err) {
-      return new Promise(function(resolve, reject) {
-        if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
-          this.$store.dispatch(logout);
+  mounted: async function() {
+    if (store.Session.getters.isLoggedIn) {
+      try {
+        let data = await this.$http.get("/authentication/check");
+        if (data.data === "expired") {
+          await router.push({ name: "Logout" });
         }
-        throw err;
-      });
-    });
+        return Promise.resolve();
+      } catch (e) {
+        return Promise.reject(e);
+      }
+    }
   }
 };
 </script>

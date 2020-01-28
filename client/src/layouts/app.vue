@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="h-100">
     <nectarHeader />
     <div class="container">
       <router-view />

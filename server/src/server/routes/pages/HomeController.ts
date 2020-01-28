@@ -9,14 +9,18 @@ export default class HomeController {
         let data = []
 
         var token = req.headers.authorization;
-        let decoded = jwt.verify(token, config.jwtSecret);
-        let id = decoded.id
+        jwt.verify(token, config.jwtSecret, async function (err, decoded) {
+            if (decoded) {
+                let id = decoded.id
 
-        const userRepository = getRepository(UserEntity);
-        let user = await userRepository.findOne({ where: { id } });
+                const userRepository = getRepository(UserEntity);
+                let user = await userRepository.findOne({ where: { id } });
 
-        data.push(user)
+                data.push(user)
 
-        res.json(data);
+                res.json(data);
+            }
+
+        });
     }
 }

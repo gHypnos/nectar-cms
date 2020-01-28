@@ -1,4 +1,4 @@
-import "bootstrap";
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
 import moment from 'moment';
 import Vue from 'vue';
 import API from './api';
@@ -11,6 +11,8 @@ Vue.prototype.$http = API
 Vue.prototype.router = router;
 Vue.prototype.$store = store;
 const token = localStorage.getItem('token');
+Vue.use(BootstrapVue)
+Vue.use(IconsPlugin)
 Vue.filter('formatDate', function (value: any) {
   if (value) {
     return moment.unix(value).format('MMM Do, YYYY hh:mm A')

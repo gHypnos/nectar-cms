@@ -197,16 +197,15 @@ export default {
         }
 
         if (step === "client.init.localization.loaded") {
-          this.client.loading.message = "Authenticating";
           this.client.loading.percentage = 60;
         }
 
         if (step === "client.init.core.running") {
+          this.client.loading.message = "Almost Ready";
           this.client.loading.percentage = 76;
         }
 
         if (step === "client.init.config.loaded") {
-          this.client.loading.message = "Almost Ready";
           this.client.loading.percentage = 95;
 
           setTimeout(() => {

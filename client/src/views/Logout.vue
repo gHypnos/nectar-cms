@@ -1,17 +1,14 @@
 <template>
-  <div class="container h-100">
-    <div class="row d-flex h-100 justify-content-center">
-      <div class="col-lg-6 align-self-center">
-        <div class="card">
-          <div class="card-header">Home</div>
-          <div class="card-body">
-            <p class="card-text">You have logged out.</p>
-            <router-link to="/" class="btn btn-success w-100">Continue</router-link>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <b-container class="h-100">
+    <b-row class="d-flex h-100 justify-content-center">
+      <b-col lg="6" class="align-self-center">
+        <b-card header="Logged out" class="card-blue rnd-lg">
+          <p class="card-text">You have logged out.</p>
+          <b-button variant="success w-100" @click="$router.push({name:'Login'})">Continue</b-button>
+        </b-card>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
