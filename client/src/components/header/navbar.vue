@@ -24,7 +24,7 @@
           </ul>
           <ul class="navbar-nav">
             <li class="nav-item">
-              <router-link class="btn btn-warning" to="/client">
+              <router-link class="btn btn-warning" :to="{name:'Hotel'}">
                 Enter Hotel
                 <i class="fas fa-hotel ml-2" />
               </router-link>

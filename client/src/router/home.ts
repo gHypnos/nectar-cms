@@ -7,6 +7,19 @@ export default [
     name: 'Home',
     component: components.Home,
     meta: {
+      title: 'Home',
+      layout: 'app',
+      middleware: [
+        auth
+      ]
+    }
+  },
+  {
+    path: '/hotel',
+    name: 'Hotel',
+    component: components.Client,
+    meta: {
+      title: 'Hotel',
       layout: 'app',
       middleware: [
         auth
@@ -15,9 +28,10 @@ export default [
   },
   {
     path: '/logout',
-    name: 'logout',
+    name: 'Logout',
     component: components.Logout,
     meta: {
+      title: "Logout",
       layout: 'processor',
       middleware: [
         auth

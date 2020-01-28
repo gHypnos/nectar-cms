@@ -7,6 +7,7 @@ export default [
     name: 'login',
     component: components.Login,
     meta: {
+      title: "Login",
       layout: 'processor',
       visible: false,
       middleware: [
@@ -19,6 +20,7 @@ export default [
     name: 'register',
     component: components.Register,
     meta: {
+      title: "Register",
       layout: 'processor',
       visible: false,
       middleware: [

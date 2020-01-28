@@ -38,7 +38,7 @@ export class UserEntity {
     public motto: string;
 
     @Column({ name: 'look', default: 'lg-270-82.hd-180-1.ch-210-66.sh-290-81.hr-100-40' })
-    public figure: string;
+    public look: string;
 
     @Column({ name: 'gender', type: 'enum', enum: ['M', 'F'], default: 'M' })
     public gender: string;

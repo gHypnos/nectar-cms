@@ -15,6 +15,65 @@ body {
         left:0;
         right:0;
         background-color: rgba(12, 58, 101,.9);
-        z-index: 99;
+        z-index: 9999999;
+        color:#fff;
+        .loading-spinner{
+            background-image:url("/assets/images/sprite.png");
+            background-position:-158px -131px;
+            width:32px;
+            height:32px;
+            animation:rotating 1s linear infinite;
+            margin:0 auto 10px
+        }
+        .loading-bar {
+            width:100vw;
+            border-top:1px solid #ccc;
+            border-bottom:1px solid #ccc;
+            height:15px;
+            box-shadow:0 0 5px  1px rgba(0,0,0,.3);
+            background-color: #001726;
+            .loading-inner {
+                transition: width 1s ease-in;
+                height:100%;
+                width:0;
+                background:#fff;
+            }
+        }
+    }
+    #app {
+        &.client{
+            overflow: hidden;
+            .nectar-client,.client-container, #client-area {
+                left:0;
+            }
+        }
+    }
+    .nectar-client,.client-container, #client-area {
+        position: absolute;
+        top:0;
+        bottom:0;
+        right:0;
+        height:100%;
+        width:100%;
+        z-index: 999;
+        left:-100%;
+        transition: left 0.3s ease-in;
+        .nectar-loading {
+            background-color: #0c3a65;
+            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAADCAYAAABS3WWCAAAADElEQVQYV2NgQAZSAAApABvBbGHVAAAAAElFTkSuQmCC), linear-gradient(0deg, rgba(12,58,101,1) 0%, rgba(0,102,153,1) 100%); 
+        }
+        .client-buttons {
+            z-index: 99999;
+            display: block;
+            position: absolute;
+            top:5px;
+            left:5px;
+            button {
+                padding: 0px 8px;
+                font-size: 24px;
+                line-height: 40px;
+            }
+        }
     }
 }
+@keyframes rotating{from{transform:rotate(0)}to{transform:rotate(360deg)}}

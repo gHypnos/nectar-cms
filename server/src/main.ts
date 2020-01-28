@@ -7,12 +7,12 @@ import Server from './server';
 
 DBConfig.entities.push(join(__dirname, '/database/entities/*Entity.ts'))
 console.clear();
-new Server(3000);
 async function init(): Promise<void> {
     try {
         const connection = await createConnection(DBConfig as MysqlConnectionOptions).then((connection: Connection) => {
             Logger.imp('Connected to ' + connection.options.database)
         });
+        await new Server(3000);
     }
 
     catch (err) {

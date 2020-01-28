@@ -50,20 +50,13 @@ const actions = {
   },
   logout(commit: any) {
     commit.commit('logout')
-    console.log('reached')
     localStorage.removeItem('token')
     delete API.defaults.headers.common['Authorization'];
   }
 };
 const mutations = {
-  loadSession: async (state: any) => {
-    let session = localStorage.getItem('token')
-    API.defaults.headers.common['Authorization'] = session
-
-    if (session) {
-      state.loaded = true
-    }
-    return Promise.resolve()
+  setUser(state: any, data: any) {
+    state.user = data
   },
   auth_request(state: any) {
     state.status = 'loading';

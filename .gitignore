@@ -2,3 +2,4 @@
 /server/node_modules
 .git
 /client/src/assets/compiled_partials
+/client/public/swfs

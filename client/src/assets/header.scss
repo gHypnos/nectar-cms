@@ -3,6 +3,58 @@ header{
     &.nectar-header {
         image-rendering: pixelated;
         background: url($imgs + '/header.png') left bottom/100%;
+        .wrapper {
+            padding:15px 0;
+            .flex-50 {
+                flex:50%
+            }
+            .dropdown {
+                .dropdown-toggle {
+                    padding-right: 50px;
+                    &:after{
+                        display:none;
+                    }
+                    &:before {
+                        display: inline-block;
+                        margin-right:0;
+                        vertical-align: .255em;
+                        content: "";
+                        border-top: .3em solid;
+                        border-right: .3em solid transparent;
+                        border-bottom: 0;
+                        border-left: .3em solid transparent;
+                        margin-right: 24px;
+                    }
+                }
+                .dark-green {
+                    background-color: #02353c;
+                    border: 2px solid #267b91;
+                    .dd-circle {
+                        background-position: center;
+                        top:-3px;
+                        left:75%;
+                        position: absolute;
+                        width:46px;
+                        height:46px;
+                        border-radius: 50%;
+                        box-shadow: 0 1px 0 2px rgba(0,0,0,.3);
+                        background-color: #02353c;
+                        border: 2px solid #267b91;
+                        overflow: hidden;
+                        img {
+                            margin:0 auto 0 auto;
+                            display:block
+                        }
+                    }
+                }
+                button {
+                   &:hover {
+                    filter:none;
+                } 
+                }
+                
+            }
+        }
     }
     .navbar {
         &.navbar-light {
@@ -11,6 +63,7 @@ header{
             .nav-item {
                 padding-right: 48px;
                 .nav-link {
+                    padding:0;
                     color:#036;
                     i {
                         font-size: 20px;
