@@ -14,12 +14,6 @@ export default class Server {
     constructor(port: number) {
         this._nectar = new NectarSettings();
         this.app = express();
-        this.app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-            res.header('Access-Control-Allow-Origin', '*');
-            res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-
-            next();
-        });
         this.app.use(cors())
         this.app.use(bodyParser.json());
         this.app.use(bodyParser.urlencoded({ extended: true }));

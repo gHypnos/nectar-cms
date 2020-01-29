@@ -1,8 +1,8 @@
 import Axios from 'axios'
-import * as config from '../config.json'
+import { Config } from '../config'
 
 const API = Axios.create({
-  baseURL: config.api
+  baseURL: Config.api
 })
 
 export default API

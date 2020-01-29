@@ -10,16 +10,16 @@
     </b-col>
     <b-col lg="6" class="me-details partial px-0">
       <div class="me-top">
-        <p class="mb-0 font-weight-bold">Name:</p>
+        <p class="mb-0 font-weight-bold">{{$t('home.name')}}</p>
         <p class="mb-0">{{user.username}}</p>
       </div>
       <div class="me-bottom">
         <div class="me-section">
-          <p class="mb-0 font-weight-bold">Motto:</p>
+          <p class="mb-0 font-weight-bold">{{$t('home.motto')}}</p>
           <p v-bind:class="{'mb-0':motto}">{{user.motto}}</p>
         </div>
         <div class="me-section">
-          <p class="mb-0 font-weight-bold">Last signed in:</p>
+          <p class="mb-0 font-weight-bold">{{$t('home.lastsign')}}</p>
           <p class="mb-0">{{user.last_login | formatDate}}</p>
         </div>
       </div>

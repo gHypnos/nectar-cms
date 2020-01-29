@@ -3,6 +3,7 @@ import moment from 'moment';
 import Vue from 'vue';
 import API from './api';
 import App from './App.vue';
+import { i18n } from './plugins/i18n';
 import router from './router';
 import store from './store';
 
@@ -24,6 +25,7 @@ if (token) {
 }
 
 new Vue({
+  i18n,
   router,
   render: h => h(App)
 }).$mount('#app')

@@ -10,7 +10,7 @@
             <div class="card-header">Home</div>
             <div class="card-body">
               {{user}}
-              <router-link to="/logout" class="btn btn-danger">Logout</router-link>
+              <router-link to="/logout" class="btn btn-danger">{{$t('auth.logout')}}</router-link>
             </div>
           </div>
         </div>
@@ -19,7 +19,7 @@
             <div class="card-header">Home</div>
             <div class="card-body">
               {{user}}
-              <router-link to="/logout" class="btn btn-danger">Logout</router-link>
+              <router-link to="/logout" class="btn btn-danger">{{$t('auth.logout')}}</router-link>
             </div>
           </div>
         </div>
