@@ -43,7 +43,7 @@ export default class NectarSettings {
                 },
                 {
                     "key": "discord_id",
-                    "value": "632242985861644320"
+                    "value": "557240155040251905"
                 },
                 {
                     "key": "server_ip",

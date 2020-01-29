@@ -1,8 +1,7 @@
 import { Router } from 'express';
 import * as jwt from "jsonwebtoken";
-import * as config from '../../../config.json';
+import { Config } from '../../../config';
 import CheckController from './auth/CheckController';
-import ClientController from './auth/ClientController';
 import LoginController from './auth/LoginController';
 import SettingsController from './nectar/SettingsController';
 import Pages from './pages';
@@ -16,13 +15,12 @@ export default class HttpRoutes {
             var token = req.headers.authorization;
             if (!token) return res.status(401).send({ auth: false, message: 'No token provided.' });
 
-            jwt.verify(token, config.jwtSecret, function (err, decoded) {
+            jwt.verify(token, Config.jwtSecret, function (err, decoded) {
                 if (err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
             });
             next();
         });
         this.router.post('/authentication/login', LoginController.index);
-        this.router.get('/authentication/Client', ClientController.index);
         this.router.get('/authentication/check', CheckController.index);
 
         return this.router;

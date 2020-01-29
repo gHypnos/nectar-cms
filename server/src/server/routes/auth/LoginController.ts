@@ -2,7 +2,8 @@ import { Request, Response } from "express";
 import * as jwt from "jsonwebtoken";
 import * as moment from 'moment';
 import { getManager, getRepository } from "typeorm";
-import * as config from '../../../../config.json';
+import { Config } from '../../../../config';
+import Logger from "../../../common/Logger";
 import { UserEntity } from '../../../database/entities/UserEntity';
 
 export default class LoginController {
@@ -17,7 +18,7 @@ export default class LoginController {
         const userRepository = getRepository(UserEntity);
         let user: UserEntity;
         try {
-            user = await userRepository.findOne({ select: ['username', 'password', 'id'], where: { username } });
+            user = await userRepository.findOneOrFail({ select: ['username', 'password', 'id', 'look', 'rank', 'motto', 'last_login', 'look', 'credits', 'pixels', 'home_room'], where: { username } });
         } catch (error) {
             res.status(401).json();
             return;
@@ -32,7 +33,7 @@ export default class LoginController {
         //Sing JWT, valid for 1 hour
         const token = jwt.sign(
             { id: user.id, username: user.username, data: 'data' },
-            config.jwtSecret,
+            Config.jwtSecret,
             { expiresIn: "3h" }
         );
 
@@ -42,6 +43,7 @@ export default class LoginController {
             .createQueryBuilder().update(UserEntity).set({ auth_ticket: sso, last_login: moment().unix() })
             .where("id = :id", { id: user.id }).execute();
         //Send the jwt in the response
-        res.json(token);
+        res.json({ token: token, user: user });
+        Logger.user(user.username + ' logged in ')
     }
 }

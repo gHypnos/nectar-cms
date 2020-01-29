@@ -1,31 +1,10 @@
 <template>
-  <div class="row" v-if="!store.main.getters.loaded">
-    <div class="col-md-9 row">
-      <div class="col-md-12 me-parent">
-        <me :user="user" />
-      </div>
-      <div class="row mx-0">
-        <div class="col-lg-6">
-          <div class="card card-blue">
-            <div class="card-header">Home</div>
-            <div class="card-body">
-              {{user}}
-              <router-link to="/logout" class="btn btn-danger">{{$t('auth.logout')}}</router-link>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-6">
-          <div class="card card-blue">
-            <div class="card-header">Home</div>
-            <div class="card-body">
-              {{user}}
-              <router-link to="/logout" class="btn btn-danger">{{$t('auth.logout')}}</router-link>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-3" v-if="$store.main.state.settings">
+  <b-row v-if="!store.main.getters.loaded">
+    <b-col lg="8">
+      <me :user="user" />
+      <news v-if="news" :articles="news" />
+    </b-col>
+    <b-col lg="4">
       <iframe
         v-bind:src="'https://discordapp.com/widget?id=' + $store.main.state.settings.discord_id + '&theme=dark'"
         width="100%"
@@ -33,28 +12,32 @@
         allowtransparency="true"
         frameborder="0"
       ></iframe>
-    </div>
-  </div>
+    </b-col>
+  </b-row>
 </template>
 
 <script>
 import me from "../components/home/me";
+import news from "../components/nectar/news";
 import store from "../store";
 export default {
   data() {
     return {
       store: store,
       data: null,
-      user: null
+      user: null,
+      news: null
     };
   },
   components: {
-    me: me
+    me: me,
+    news: news
   },
   mounted: async function() {
     try {
       let data = await this.$http.get("/page/home");
       this.user = data.data[0];
+      this.news = data.data[1];
       store.Session.commit("setUser", this.user);
       return Promise.resolve();
     } catch (e) {

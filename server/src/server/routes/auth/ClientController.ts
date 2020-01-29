@@ -2,18 +2,19 @@ import { Request, Response } from "express";
 import * as jwt from "jsonwebtoken";
 import { getManager } from "typeorm";
 import * as uuid from 'uuid';
-import * as config from '../../../../config.json';
+import { Config } from '../../../../config';
 import { UserEntity } from '../../../database/entities/UserEntity';
 
 export default class ClientController {
     static index = async (req: Request, res: Response) => {
         var token = req.headers.authorization;
         try {
-            jwt.verify(token, config.jwtSecret, async function (err, decoded) {
+            jwt.verify(token, Config.jwtSecret, async function (err, decoded) {
                 if (err) {
                     res.status(500).json()
                 } else {
                     let id = decoded.id
+                    console.log(decoded)
 
                     let sso = uuid();
                     let auth = await getManager()

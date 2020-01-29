@@ -1,10 +1,12 @@
 <template>
-  <div class="row me-widget" v-if="user">
+  <b-row class="me-widget" v-if="user">
     <b-col lg="2" class="me-avatar partial d-flex justify-content-center">
-      <div class="me-circle align-self-center">
+      <div class="align-self-center">
         <img
+          @mouseover="onWave"
+          @mouseleave="offWave"
           v-if="$store.main.state.settings"
-          v-bind:src="$store.main.state.settings.habbo_imager  + user.look + '&direction=3&head_direction=3&action=wav'"
+          v-bind:src="$store.main.state.settings.habbo_imager  + user.look + '&direction=3&head_direction=3' + wave"
         />
       </div>
     </b-col>
@@ -19,20 +21,31 @@
           <p v-bind:class="{'mb-0':motto}">{{user.motto}}</p>
         </div>
         <div class="me-section">
-          <p class="mb-0 font-weight-bold">{{$t('home.lastsign')}}</p>
+          <p class="mb-0 font-weight-bold">{{$t('home.lastSign')}}</p>
           <p class="mb-0">{{user.last_login | formatDate}}</p>
         </div>
       </div>
     </b-col>
     <b-col lg="4" class="me-enter-hotel partial d-flex justify-content-center">
       <div class="align-self-center">
-        <router-link class="btn btn-warning mx-auto w-100" :to="{name:'Hotel'}">
-          Enter Hotel
+        <b-button variant="success" class="w-100" :to="{name:'Hotel'}">
+          {{$t('home.enterHotel')}}
           <i class="fas fa-hotel ml-2" />
-        </router-link>
+        </b-button>
       </div>
     </b-col>
-  </div>
+    <b-col lg="12" class="p-0 m-0 row">
+      <div class="currency credits col">
+        <span>{{user.credits}}</span>
+      </div>
+      <div class="currency duckets col">
+        <span>{{user.credits}}</span>
+      </div>
+      <div class="currency diamonds col">
+        <span>{{user.credits}}</span>
+      </div>
+    </b-col>
+  </b-row>
 </template>
 
 <script>
@@ -44,10 +57,27 @@ export default {
     }
   },
   data() {
-    return {};
+    return {
+      wave: "",
+      interval: null
+    };
   },
   components: {},
-  methods: {},
+  methods: {
+    onWave: function() {
+      this.interval = setInterval(() => {
+        if (this.wave === "&action=wav&frame=1") {
+          this.wave = "&action=wav&frame=2";
+        } else {
+          this.wave = "&action=wav&frame=1";
+        }
+      }, 220);
+    },
+    offWave() {
+      clearInterval(this.interval);
+      this.wave = "";
+    }
+  },
   computed: {
     motto() {
       if (this.user.motto) {

@@ -2,6 +2,7 @@
     border-width:2px;
     border-style: solid;
     box-shadow: 0 2px 0 1px rgba(0,0,0,.2);
+    font-size: 16px;
     &.btn-primary {
         background-color: #0f7dbc;
         border-color: #2a9cde;
@@ -12,7 +13,8 @@
     }
     &.btn-warning {
         background-color: #ffb900;
-    border-color: #ffea00;
+        border-color: #ffea00;
+        color:#000;
     }
     &:hover {
         filter: brightness(1.1);

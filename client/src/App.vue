@@ -1,5 +1,10 @@
 <template>
-  <div id="app" class="h-100" v-bind:class="{'client':($store.main.state.client)}">
+  <div
+    id="app"
+    class="h-100"
+    v-bind:class="{'client':($store.main.state.client)}"
+    v-if="$store.main.state.settings"
+  >
     <loading v-if="$store.main.state.loading" />
     <component v-bind:is="layout"></component>
   </div>

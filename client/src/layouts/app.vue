@@ -1,15 +1,17 @@
 <template>
-  <div class="h-100">
+  <div class="d-flex flex-column h-100" v-if="$store.Session.state.user">
     <nectarHeader />
-    <div class="container">
+    <b-container class="container mb-1">
       <router-view />
-    </div>
+    </b-container>
+    <nectarFooter />
     <client v-if="$store.main.state.settings && $store.Session.state.user" />
   </div>
 </template>
 
 <script>
-import Header from "../components/header/header";
+import Header from "../components/nectar/header/header";
+import Footer from "../components/nectar/footer";
 import Client from "../components/client";
 export default {
   data() {
@@ -17,6 +19,7 @@ export default {
   },
   components: {
     nectarHeader: Header,
+    nectarFooter: Footer,
     client: Client
   },
   methods: {}

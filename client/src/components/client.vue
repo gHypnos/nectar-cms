@@ -1,5 +1,5 @@
 <template>
-  <div class="nectar-client" v-if="$store.main.state.settings && $store.Session.state.user">
+  <div class="nectar-client">
     <div class="client-buttons">
       <button class="btn btn-warning" @click.prevent="back">
         <i class="fas fa-arrow-circle-left" />
@@ -26,7 +26,12 @@
           <img src="/assets/images/logo.gif" class="mb-2" />
           <p class="mb-2">{{client.loading.message}}</p>
           <div class="loading-bar mb-1">
-            <div class="loading-inner" v-bind:style="'width:'+client.loading.percentage+'%;'"></div>
+            <b-progress
+              :value="client.loading.percentage"
+              :max="'100'"
+              variant="secondary"
+              animated
+            ></b-progress>
           </div>
           <h3>{{client.loading.percentage}}%</h3>
         </div>
@@ -82,7 +87,7 @@ export default {
     },
     async loadSSO() {
       try {
-        let sso = await API.get("/authentication/client");
+        let sso = await API.get("/page/client");
         this.client.sso = sso.data;
         return Promise.resolve("valid_sso");
       } catch (e) {

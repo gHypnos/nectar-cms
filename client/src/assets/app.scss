@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Ubuntu+Condensed&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Rubik&display=swap');
 @import './card.scss';
 @import './header.scss';
 @import './buttons.scss';
@@ -7,7 +7,7 @@ body {
     font-size: 16px;
     background-color: #0c3a65;
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAADCAYAAABS3WWCAAAADElEQVQYV2NgQAZSAAApABvBbGHVAAAAAElFTkSuQmCC), linear-gradient(0deg, rgba(12,58,101,1) 0%, rgba(0,102,153,1) 100%);
-    font-family: 'Ubuntu Condensed', sans-serif;
+    font-family: 'Rubik', sans-serif;
     .nectar-loading {
         position: absolute;
         top:0;
@@ -71,6 +71,16 @@ body {
                 font-size: 24px;
                 line-height: 40px;
             }
+        }
+    }
+    footer {
+        background: #001726;
+        display: block;
+        padding: 12px 0;
+        text-align: center;
+        .text-muted {
+            font-size: 12px;
+            color: #425c73;
         }
     }
 }

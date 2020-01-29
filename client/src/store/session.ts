@@ -33,7 +33,7 @@ const actions = {
 
       let session = {
         status: true,
-        token: result.data,
+        token: result.data.token,
         user: result.data.user
       }
 
