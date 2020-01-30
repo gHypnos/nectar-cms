@@ -6,7 +6,7 @@ import { Config } from '../../../../config';
 import Logger from "../../../common/Logger";
 import { UserEntity } from '../../../database/entities/UserEntity';
 
-export default class LoginController {
+export default class Login {
     static index = async (req: Request, res: Response) => {
         let { username, password } = req.body;
         if (!(username && password)) {
@@ -36,11 +36,8 @@ export default class LoginController {
             Config.jwtSecret,
             { expiresIn: "3h" }
         );
-
-
-        let sso = 'hi-123'
         let auth = await await getManager()
-            .createQueryBuilder().update(UserEntity).set({ auth_ticket: sso, last_login: moment().unix() })
+            .createQueryBuilder().update(UserEntity).set({ last_login: moment().unix() })
             .where("id = :id", { id: user.id }).execute();
         //Send the jwt in the response
         res.json({ token: token, user: user });

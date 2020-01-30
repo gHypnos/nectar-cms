@@ -87,7 +87,7 @@ export default {
     },
     async loadSSO() {
       try {
-        let sso = await API.get("/page/client");
+        let sso = await API.get("/session/client");
         this.client.sso = sso.data;
         return Promise.resolve("valid_sso");
       } catch (e) {

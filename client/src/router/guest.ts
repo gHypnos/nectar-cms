@@ -5,22 +5,9 @@ export default [
   {
     path: '/',
     name: 'Login',
-    component: components.Login,
+    component: components.Processor,
     meta: {
       title: "Login",
-      layout: 'processor',
-      visible: false,
-      middleware: [
-        guest
-      ]
-    }
-  },
-  {
-    path: '/register',
-    name: 'Legister',
-    component: components.Register,
-    meta: {
-      title: "Register",
       layout: 'processor',
       visible: false,
       middleware: [

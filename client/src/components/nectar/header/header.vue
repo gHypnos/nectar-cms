@@ -4,7 +4,7 @@
       <div class="align-self-center nectar-logo">
         <img src="/assets/images/logo.gif" />
       </div>
-      <div class="align-self-center float-right">
+      <div class="align-self-center float-right" v-if="$store.Session.state.user">
         <b-dropdown size="sm" variant="secondary dark-green">
           <template v-slot:button-content>
             {{$store.Session.state.user.username}}

@@ -112,14 +112,20 @@ $imgs: '/assets/images';
             position: absolute;
             background-position: left center;
             z-index: 1;
-            transition: background 0.5s ease-in;
+            transition: background 0.3s ease-in;
         }
         article {
             z-index: 1;
             position:absolute;
             display: block;
             max-width: 330px;
-            padding: 12px 12px 0
+            padding: 36px 36px 0;
+            .meta {
+                font-size: 11px;
+                .date{
+                    color: #999;
+                }
+            }
         }
     }
     .bullets {
@@ -136,7 +142,7 @@ $imgs: '/assets/images';
         .bullet {
             height:20px;
             width:20px;
-            background:rgba(255,255,255,.5);
+            background:rgba(255,255,255,.4);
             margin-right:5px;
             display: inline-block;
             border-radius: 50%;
@@ -146,6 +152,50 @@ $imgs: '/assets/images';
             }
         }
     }
+    &:hover {
+        .arrow {
+            opacity: 1;
+        }
+    }
+    .arrow {
+        opacity: 0;
+        transition: opacity 0.4s ease-in;
+        &.arrow-left,&.arrow-right {
+            z-index: 10;
+            margin:10px;
+            position: relative;
+            &:before {
+                content:'';
+                position: absolute;
+                top: -15px;
+                left: 2px;
+                right:0;
+                bottom:0;
+            }
+        }  
+        &.arrow-left {
+            border-width: 18px 18px 18px 0;
+            border-style: solid;
+            border-color: transparent rgba(0,0,0,.3) transparent transparent;
+            &:before {
+                border-width: 15px 15px 15px 0;
+                border-style: solid;
+                border-color: transparent #fff transparent transparent;
+            }
+        }
+        &.arrow-right {
+            border-width: 18px 0px 18px 18px;
+            border-style: solid;
+            border-color: transparent transparent transparent rgba(0,0,0,.3);
+            &:before {
+                left: -17px;
+                border-width: 15px 0px 15px 15px;
+                border-style: solid;
+                border-color: transparent transparent transparent #fff;
+            }
+        }
+    }
+
 }
 @media (max-width: 1000px) {
     .me-widget {

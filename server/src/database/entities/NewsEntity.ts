@@ -12,7 +12,7 @@ export class NewsEntity {
     public title: string;
 
     @Column({ name: 'author_id', nullable: true })
-    public authorID: number;
+    public author_id: number;
 
     @Column({ name: 'shortstory', nullable: true })
     public shortstory: string;
@@ -28,5 +28,5 @@ export class NewsEntity {
 
     @ManyToOne(type => UserEntity, user => user.id)
     @JoinColumn({ name: 'author_id' })
-    public user: UserEntity;
+    public author: UserEntity[];
 }

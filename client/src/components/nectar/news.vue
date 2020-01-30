@@ -1,29 +1,35 @@
 <template>
-  <div class="nectar-news" v-if="articles">
+  <div class="nectar-news d-flex justify-content-between" v-if="articles && articles.length">
     <div
       class="nectar-news-item"
-      v-if="article"
+      v-if="currentArticle"
       @click="$router.push({name:'Logout'})"
-      @mouseover="stopArticles"
-      @mouseout="startArticles"
+      @mouseover="stopTicking"
+      @mouseout="startTicking"
     >
-      <figure class="nectar-news-viewport" :style="'background-image:url('+article.image+');'" />
+      <figure
+        class="nectar-news-viewport"
+        :style="'background-image:url('+currentArticle.image+');'"
+      />
       <article>
-        <h2>{{article.title}}</h2>
+        <h2>{{currentArticle.title}}</h2>
         <div class="meta">
-          <span class="text-muted">{{moment(article.timestampCreated).format('MMM Do, YYYY')}}</span>
+          <span class="date">{{moment(currentArticle.timestampCreated).format('MMM Do, YYYY')}} |</span>
+          {{currentArticle.author.username}}
         </div>
       </article>
     </div>
     <div class="bullets">
       <div
-        v-for="(article,id) in articles"
-        :key="id"
+        v-for="(article, index) in articles"
+        :key="index"
         class="bullet"
-        :class="{'active':(index == article.id)}"
-        @click="switchArticle(article.id)"
+        :class="{'active': (currentIndex === index)}"
+        @click="switchArticle(index)"
       />
     </div>
+    <span class="align-self-center arrow arrow-left" @click="previousArticle" />
+    <span class="align-self-center arrow arrow-right" @click="nextArticle" />
   </div>
   <h1 v-else>{{$t('home.noArticles')}}</h1>
 </template>
@@ -33,41 +39,98 @@ import moment from "moment";
 import store from "../../store";
 import vue from "vue";
 export default {
-  props: {
-    articles: {
-      type: Object
-    }
-  },
   data() {
     return {
-      interval: null,
-      index: 0,
-      article: null,
+      currentIndex: -1,
+      currentArticle: null,
+      articles: [],
       moment: moment
     };
   },
   beforeDestroy() {
-    this.stopArticles();
+    this.stopTicking();
   },
-  mounted() {
-    this.startArticles();
+  mounted: async function() {
+    try {
+      this.articles = [];
+      this.currentIndex = -1;
+
+      const response = await this.$http.get("/components/news");
+      const articles = response && response.data;
+
+      if (!articles || !articles.length) return;
+
+      this.articles = articles;
+
+      this.nextArticle();
+
+      return Promise.resolve();
+    } catch (e) {
+      return Promise.reject(e);
+    }
   },
   methods: {
-    switchArticle(value) {
-      this.stopArticles();
-      this.article = this.articles["article-" + value];
-      this.startArticles();
+    startTicking() {
+      this.stopTicking();
+      this.interval = setInterval(() => this.tick(), 5000);
     },
-    startArticles: function() {
-      this.index++;
-      if (this.index > Object.keys(this.articles).length) {
-        this.index = 1;
+    stopTicking() {
+      if (!this.interval) return;
+      clearInterval(this.interval);
+      this.interval = null;
+    },
+    tick() {
+      console.log(this.currentArticle);
+      const totalArticles = this.articles.length;
+
+      if (!totalArticles) {
+        this.stopTicking();
+
+        return;
       }
-      this.article = this.articles["article-" + this.index];
-      this.interval = setTimeout(this.startArticles, 5000);
+
+      this.nextArticle(false);
     },
-    stopArticles: function() {
-      clearTimeout(this.interval);
+    setArticle(index) {
+      this.currentIndex = index;
+      this.currentArticle = this.articles[this.currentIndex];
+    },
+    nextArticle(tick = true) {
+      const totalArticles = this.articles.length;
+
+      const nextIndex = this.currentIndex + 1;
+
+      if (nextIndex >= totalArticles || nextIndex < 0) {
+        this.setArticle(0);
+      } else {
+        this.setArticle(nextIndex);
+      }
+
+      if (tick) this.startTicking();
+    },
+    previousArticle(tick = true) {
+      const totalArticles = this.articles.length;
+
+      const nextIndex = this.currentIndex - 1;
+
+      if (nextIndex >= totalArticles || nextIndex < 0) {
+        this.setArticle(totalArticles - 1);
+      } else {
+        this.setArticle(nextIndex);
+      }
+
+      if (tick) this.startTicking();
+    },
+    switchArticle(index, tick = true) {
+      const totalArticles = this.articles.length;
+      if (index >= totalArticles || index < 0) {
+        this.setArticle(0);
+      } else {
+        this.setArticle(index);
+        this.currentIndex = index;
+      }
+
+      if (tick) this.startTicking();
     }
   }
 };

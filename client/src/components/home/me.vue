@@ -1,11 +1,15 @@
 <template>
   <b-row class="me-widget" v-if="user">
     <b-col lg="2" class="me-avatar partial d-flex justify-content-center">
-      <div class="align-self-center">
+      <div class="align-self-center" v-if="$store.main.state.settings">
         <img
+          v-if="user.motto == 'archie' || user.motto == 'Archie'"
+          src="/assets/images/archie.png"
+        />
+        <img
+          v-else
           @mouseover="onWave"
           @mouseleave="offWave"
-          v-if="$store.main.state.settings"
           v-bind:src="$store.main.state.settings.habbo_imager  + user.look + '&direction=3&head_direction=3' + wave"
         />
       </div>
@@ -39,10 +43,10 @@
         <span>{{user.credits}}</span>
       </div>
       <div class="currency duckets col">
-        <span>{{user.credits}}</span>
+        <span>{{user.currency[0].amount}}</span>
       </div>
       <div class="currency diamonds col">
-        <span>{{user.credits}}</span>
+        <span>{{user.currency[1].amount}}</span>
       </div>
     </b-col>
   </b-row>
@@ -51,13 +55,9 @@
 <script>
 import store from "../../store";
 export default {
-  props: {
-    user: {
-      type: Object
-    }
-  },
   data() {
     return {
+      user: null,
       wave: "",
       interval: null
     };
@@ -85,6 +85,16 @@ export default {
       } else {
         return false;
       }
+    }
+  },
+  mounted: async function() {
+    try {
+      let data = await this.$http.get("/components/me");
+      this.user = data.data;
+      this.$store.Session.commit("setUser", data.data);
+      return Promise.resolve();
+    } catch (e) {
+      return Promise.reject(e);
     }
   }
 };

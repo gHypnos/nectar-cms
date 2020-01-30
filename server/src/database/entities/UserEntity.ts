@@ -1,5 +1,6 @@
 import * as bcrypt from "bcryptjs";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { UserCurrencyEntity } from "./UserCurrencyEntity";
 
 @Entity('users')
 export class UserEntity {
@@ -10,7 +11,7 @@ export class UserEntity {
     @Column({ name: 'username', unique: true })
     public username: string;
 
-    @Column({ name: 'real_name' })
+    @Column({ name: 'real_name', nullable: true })
     public real_name: string;
 
     @Column({ name: 'password', select: false })
@@ -19,19 +20,19 @@ export class UserEntity {
     @Column({ name: 'mail', select: false })
     public mail: string;
 
-    @Column({ name: 'mail_verified', select: false })
+    @Column({ name: 'mail_verified', select: false, default: 0 })
     public mail_verified: number;
 
     @Column({ name: 'account_created' })
     public account_created: number;
 
-    @Column({ name: 'account_day_of_birth' })
+    @Column({ name: 'account_day_of_birth', default: 0 })
     public account_day_of_birth: number;
 
     @Column({ name: 'last_login' })
     public last_login: number;
 
-    @Column({ name: 'last_online' })
+    @Column({ name: 'last_online', default: 0 })
     public last_online: number;
 
     @Column({ name: 'motto', nullable: true, default: 'Nectar' })
@@ -67,15 +68,14 @@ export class UserEntity {
     @Column({ name: 'ip_current', default: '127.0.0.1' })
     public ip_current: string;
 
-    @Column({ name: 'machine_id' })
+    @Column({ name: 'machine_id', nullable: true })
     public machine_id: string;
 
     @Column({ name: 'home_room', default: 0 })
     public home_room: number;
 
-    hashPassword() {
-        this.password = bcrypt.hashSync(this.password, 8);
-    }
+    @OneToMany(type => UserCurrencyEntity, currencies => currencies.user)
+    public currencies: UserCurrencyEntity[];
 
     checkIfUnencryptedPasswordIsValid(unencryptedPassword: string) {
         return bcrypt.compareSync(unencryptedPassword, this.password);

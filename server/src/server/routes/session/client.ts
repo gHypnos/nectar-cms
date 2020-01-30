@@ -14,12 +14,10 @@ export default class ClientController {
                     res.status(500).json()
                 } else {
                     let id = decoded.id
-                    console.log(decoded)
 
                     let sso = uuid();
-                    let auth = await getManager()
-                        .createQueryBuilder().update(UserEntity).set({ auth_ticket: sso })
-                        .where("id = :id", { id: id }).execute();
+
+                    await getManager().update(UserEntity, { id: decoded.id }, { auth_ticket: sso });
 
                     res.json(sso)
                 }

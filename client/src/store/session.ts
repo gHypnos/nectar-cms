@@ -52,6 +52,24 @@ const actions = {
     commit.commit('logout')
     localStorage.removeItem('token')
     delete API.defaults.headers.common['Authorization'];
+  },
+  register: async (commit: any, user: any) => {
+    try {
+      let result = await API.post('/authentication/register', user);
+      let session = {
+        status: true,
+        token: result.data.token,
+        user: result.data.user
+      }
+      localStorage.setItem('token', session.token)
+      API.defaults.headers.common['Authorization'] = session.token
+      commit.commit("errors", '');
+      commit.commit('auth_success', session)
+      return Promise.resolve()
+    } catch (e) {
+      commit.commit("errors", e);
+      return Promise.reject(e)
+    }
   }
 };
 const mutations = {

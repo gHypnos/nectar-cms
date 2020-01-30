@@ -34,6 +34,22 @@ export default class NectarSettings {
                     "value": "https://habbo.com.br/habbo-imaging/avatarimage?figure="
                 },
                 {
+                    "key": "starting_motto",
+                    "value": "I LOVE NECTAR!!"
+                },
+                {
+                    "key": "starting_credits",
+                    "value": "30000"
+                },
+                {
+                    "key": "starting_duckets",
+                    "value": "3000"
+                },
+                {
+                    "key": "starting_diamonds",
+                    "value": "30"
+                },
+                {
                     "key": "hotel_name",
                     "value": "Nectar"
                 },

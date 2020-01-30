@@ -1,11 +1,11 @@
 <template>
-  <div class="d-flex flex-column h-100" v-if="$store.Session.state.user">
+  <div class="d-flex flex-column h-100">
     <nectarHeader />
     <b-container class="container mb-1">
       <router-view />
     </b-container>
     <nectarFooter />
-    <client v-if="$store.main.state.settings && $store.Session.state.user" />
+    <client v-if="$store.main.state.settings" />
   </div>
 </template>
 
