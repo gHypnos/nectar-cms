@@ -1,8 +1,8 @@
 <template>
   <b-row>
     <b-col lg="7">
-      <characters />
       <news />
+      <characters />
     </b-col>
     <b-col lg="5" class="h-100 d-flex flex-column justify-content-center">
       <div

@@ -9,7 +9,8 @@ const main = new Vuex.Store({
     layout: 'processor',
     settings: null,
     client: false,
-    loading: true
+    loading: true,
+    subHeader: false
   },
   mutations: {
     SET_LAYOUT(state: any, payload: string) {
@@ -23,6 +24,9 @@ const main = new Vuex.Store({
     },
     setLoading(state: any, payload: boolean) {
       state.loading = payload
+    },
+    setSubHeader(state: any, payload: any) {
+      state.subHeader = payload;
     }
   },
   getters: {

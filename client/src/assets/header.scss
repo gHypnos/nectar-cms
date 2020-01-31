@@ -1,11 +1,12 @@
 $imgs: '/assets/images';
 header{
+    z-index: 1;
     .nectar-header {
         user-select:none;
         image-rendering: pixelated;
         background: url($imgs + '/header_2.gif') left bottom;
         .wrapper {
-            padding:15px 0;
+            padding:5px 0;
             background-repeat: repeat-x;
             .flex-50 {
                 flex:50%
@@ -157,6 +158,25 @@ header{
                     } 
                 }
             }
+        }
+    }
+    margin-bottom:15px;
+}
+.sub-header {
+    padding: 24px 12px;
+    background:#069;
+    z-index: 1;
+    .container {
+        hr {
+            border:0;
+            border-bottom:1px solid #0c3a65;
+            box-shadow: 0 1px #2a9cde;
+        }
+        h1 {
+            text-transform: uppercase;
+        }
+        h5 {
+            color:#7ecaee;
         }
     }
     margin-bottom:15px;

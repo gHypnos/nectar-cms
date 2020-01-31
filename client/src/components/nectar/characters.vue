@@ -1,5 +1,5 @@
 <template>
-  <div class="characters" v-if="characters">
+  <div class="characters" v-if="characters" :class="{'mt-3':(!$store.Session.getters.isLoggedIn)}">
     <h3 :class="{'mb-0':(!$store.Session.getters.isLoggedIn)}">{{$t('auth.characters.title')}}</h3>
     <h6 v-if="!$store.Session.getters.isLoggedIn">{{$t('auth.characters.disclaimer')}}</h6>
     <div class="character_grid">

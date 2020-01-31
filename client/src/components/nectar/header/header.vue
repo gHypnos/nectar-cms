@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header :class="{'mb-0':$store.main.state.subHeader}">
     <div class="nectar-header">
       <div class="container wrapper d-flex justify-content-between">
         <div class="align-self-center nectar-logo">
@@ -69,6 +69,10 @@ export default {
             {
               path: "/community/photos",
               name: "Photos"
+            },
+            {
+              path: "/community/rooms",
+              name: "Rooms"
             }
           ]
         }

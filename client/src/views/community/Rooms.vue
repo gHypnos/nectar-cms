@@ -7,9 +7,9 @@ export default {
   data() {
     return {
       subHeader: {
-        title: this.$t("community.photos"),
-        image: "/assets/images/photos.png",
-        desc: this.$t("community.photos_desc")
+        title: this.$t("community.rooms"),
+        image: "/assets/images/rooms.png",
+        desc: this.$t("community.rooms_desc")
       }
     };
   },

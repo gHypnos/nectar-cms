@@ -1,6 +1,7 @@
 <template>
   <div class="d-flex flex-column h-100">
     <nectarHeader />
+    <subHeader v-if="$store.main.state.subHeader" />
     <b-container class="container mb-1">
       <router-view />
     </b-container>
@@ -13,6 +14,7 @@
 import Header from "../components/nectar/header/header";
 import Footer from "../components/nectar/footer";
 import Client from "../components/client";
+import subHeader from "../components/nectar/subheader";
 export default {
   data() {
     return {};
@@ -20,7 +22,8 @@ export default {
   components: {
     nectarHeader: Header,
     nectarFooter: Footer,
-    client: Client
+    client: Client,
+    subHeader
   },
   methods: {}
 };

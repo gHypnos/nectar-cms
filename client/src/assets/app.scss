@@ -18,6 +18,9 @@ body {
         width:100vw;
         position: fixed;
     }
+    div  {
+        z-index: 1;
+    }
     .nectar-loading {
         position: absolute;
         top:0;

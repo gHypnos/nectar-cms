@@ -20,7 +20,19 @@ export default [
     name: 'Photos',
     component: components.Community.Photos,
     meta: {
-      title: 'Settings',
+      title: 'Photos',
+      layout: 'app',
+      middleware: [
+        auth
+      ]
+    }
+  },
+  {
+    path: '/community/rooms',
+    name: 'Rooms',
+    component: components.Community.Rooms,
+    meta: {
+      title: 'Rooms',
       layout: 'app',
       middleware: [
         auth
