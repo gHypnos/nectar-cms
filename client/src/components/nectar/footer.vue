@@ -13,7 +13,7 @@
             >{{$store.main.state.settings.hotel_name}} {{$t('hotel')}} © 2020 Hypnos; NectarCMS</span>
           </div>
         </b-col>
-        <b-col sm="1">
+        <b-col sm="2">
           <img src="/assets/images/nectar.gif" class="mb-1" />
           <span class="text-muted d-block">Powered by NectarCMS</span>
         </b-col>

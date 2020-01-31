@@ -25,7 +25,9 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  store.main.commit('setLoading', true)
+  console.log(to, from, next)
+  if (!to.path.includes('hotel') && !from.path.includes('hotel')) { store.main.commit('setLoading', true); }
+
   store.main.dispatch("loadSettings").then(() => {
     // This goes through the matched routes from last to first, finding the closest route with a title.
     // eg. if we have /some/deep/nested/route and /some, /deep, and /nested have titles, nested's will be chosen.

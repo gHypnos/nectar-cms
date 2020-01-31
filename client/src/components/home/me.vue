@@ -1,17 +1,18 @@
 <template>
   <b-row class="me-widget" v-if="user">
     <b-col lg="2" class="me-avatar partial d-flex justify-content-center">
-      <div class="align-self-center" v-if="$store.main.state.settings">
+      <div
+        class="align-self-center"
+        v-if="$store.main.state.settings"
+        @mouseover="start"
+        @mouseleave="destroy"
+        @click="$router.push({name:'Settings'})"
+      >
         <img
           v-if="user.motto == 'archie' || user.motto == 'Archie'"
           src="/assets/images/archie.png"
         />
-        <img
-          @mouseover="start"
-          @mouseleave="destroy"
-          v-else
-          v-bind:src="$store.main.state.settings.habbo_imager  + user.look + direction"
-        />
+        <img v-else v-bind:src="$store.main.state.settings.habbo_imager  + user.look + direction" />
       </div>
     </b-col>
     <b-col lg="6" class="me-details partial px-0">

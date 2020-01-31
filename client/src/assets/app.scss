@@ -58,6 +58,10 @@ body {
                 left:0;
             }
         }
+        .nectar-client {
+            left:-100%;
+            transition: left 0.5s ease-in;
+        }
     }
     .nectar-client,.client-container, #client-area {
         position: absolute;
@@ -67,8 +71,6 @@ body {
         height:100%;
         width:100%;
         z-index: 999;
-        left:-100%;
-        transition: left 0.3s ease-in;
         .nectar-loading {
             background-color: #0c3a65;
             background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAADCAYAAABS3WWCAAAADElEQVQYV2NgQAZSAAApABvBbGHVAAAAAElFTkSuQmCC), linear-gradient(0deg, rgba(12,58,101,1) 0%, rgba(0,102,153,1) 100%); 
@@ -106,3 +108,4 @@ body {
     }
 }
 @keyframes rotating{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+
