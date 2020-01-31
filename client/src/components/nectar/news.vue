@@ -17,6 +17,7 @@
           <span class="date">{{moment(currentArticle.timestampCreated).format('MMM Do, YYYY')}} |</span>
           {{currentArticle.author.username}}
         </div>
+        <p>{{currentArticle.shortstory}}</p>
       </article>
     </div>
     <div class="bullets">
@@ -80,7 +81,6 @@ export default {
       this.interval = null;
     },
     tick() {
-      console.log(this.currentArticle);
       const totalArticles = this.articles.length;
 
       if (!totalArticles) {

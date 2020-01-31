@@ -7,10 +7,10 @@
           src="/assets/images/archie.png"
         />
         <img
+          @mouseover="start"
+          @mouseleave="destroy"
           v-else
-          @mouseover="onWave"
-          @mouseleave="offWave"
-          v-bind:src="$store.main.state.settings.habbo_imager  + user.look + '&direction=3&head_direction=3' + wave"
+          v-bind:src="$store.main.state.settings.habbo_imager  + user.look + direction"
         />
       </div>
     </b-col>
@@ -59,24 +59,40 @@ export default {
     return {
       user: null,
       currencies: null,
-      wave: "",
+      direction: "&direction=3&head_direction=3&gesture=sml&action=wav",
       interval: null
     };
   },
   components: {},
   methods: {
-    onWave: function() {
-      this.interval = setInterval(() => {
-        if (this.wave === "&action=wav&frame=1") {
-          this.wave = "&action=wav&frame=2";
-        } else {
-          this.wave = "&action=wav&frame=1";
-        }
-      }, 220);
+    start() {
+      this.destroy();
+      this.interval = setInterval(() => this.tick(), 200);
     },
-    offWave() {
+    tick() {
+      if (this.direction === "&direction=3&head_direction=3") {
+        this.direction = "&direction=4&head_direction=4";
+      } else if (this.direction === "&direction=4&head_direction=4") {
+        this.direction = "&direction=5&head_direction=5";
+      } else if (this.direction === "&direction=5&head_direction=5") {
+        this.direction = "&direction=6&head_direction=6";
+      } else if (this.direction === "&direction=6&head_direction=6") {
+        this.direction = "&direction=7&head_direction=7";
+      } else if (this.direction === "&direction=7&head_direction=7") {
+        this.direction = "&direction=0&head_direction=0";
+      } else if (this.direction === "&direction=0&head_direction=0") {
+        this.direction = "&direction=1&head_direction=1";
+      } else if (this.direction === "&direction=1&head_direction=1") {
+        this.direction = "&direction=2&head_direction=2";
+      } else if (this.direction === "&direction=2&head_direction=2") {
+        this.direction = "&direction=3&head_direction=3";
+      } else {
+        this.direction = "&direction=3&head_direction=3";
+      }
+    },
+    destroy() {
       clearInterval(this.interval);
-      this.wave = "";
+      this.direction = "&direction=3&head_direction=3&gesture=sml&action=wav";
     }
   },
   computed: {
@@ -98,6 +114,9 @@ export default {
     } catch (e) {
       return Promise.reject(e);
     }
+  },
+  beforeDestroy() {
+    this.destroy();
   }
 };
 </script>

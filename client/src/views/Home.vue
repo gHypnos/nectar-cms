@@ -8,7 +8,7 @@
       <iframe
         v-bind:src="'https://discordapp.com/widget?id=' + $store.main.state.settings.discord_id + '&theme=dark'"
         width="100%"
-        height="500"
+        height="510"
         allowtransparency="true"
         frameborder="0"
       ></iframe>

@@ -10,7 +10,7 @@ const state = {
   character: '',
   error: '',
   account: '',
-  accounts: localStorage.getItem('accounts') || {}
+  login: ''
 }
 const getters = {
   isLoggedIn(state: any) {
@@ -31,8 +31,12 @@ const actions = {
   },
   login: async (commit: any, user: any) => {
     try {
+      localStorage.setItem('login_info', JSON.stringify({ mail: user.mail, password: user.password }))
       let result = await API.post('/authentication/login', user);
-
+      if (result.data.error) {
+        commit.commit("errors", result.data.error);
+        return Promise.reject(Error(result.data.error))
+      }
       let session = {
         status: true,
         token: result.data.token,
@@ -41,13 +45,14 @@ const actions = {
       }
 
       localStorage.setItem('token', session.token)
+      localStorage.setItem('characters', JSON.stringify(result.data.characters))
       API.defaults.headers.common['Authorization'] = session.token
       commit.commit("errors", '');
       commit.commit('auth_success', session)
 
       return Promise.resolve()
     } catch (e) {
-      commit.commit("errors", "Invalid credentials");
+      commit.commit("errors", e);
       return Promise.reject(e)
     }
   },
@@ -59,16 +64,24 @@ const actions = {
   register: async (commit: any, user: any) => {
     try {
       let result = await API.post('/authentication/register', user);
+      if (result.data.error) {
+        commit.commit("errors", result.data.error);
+        return Promise.reject(Error(result.data.error))
+      }
       return Promise.resolve()
     } catch (e) {
-      commit.commit("errors", e);
       return Promise.reject(e)
     }
   },
   register_character: async (commit: any, user: any) => {
     try {
+      localStorage.setItem('login_info', JSON.stringify({ mail: user.mail, password: user.password }))
       console.log(commit.state.account)
       let result = await API.post('/authentication/register/character', user);
+      if (result.data.error) {
+        commit.commit("errors", result.data.error);
+        return Promise.reject(Error(result.data.error))
+      }
       let session = {
         status: true,
         token: result.data.token,
@@ -77,8 +90,54 @@ const actions = {
       }
       localStorage.setItem('token', session.token)
       API.defaults.headers.common['Authorization'] = session.token
+      localStorage.setItem('characters', JSON.stringify(result.data.characters))
       commit.commit("errors", '');
       commit.commit('auth_success', session)
+      return Promise.resolve()
+    } catch (e) {
+      commit.commit("errors", e);
+      return Promise.reject(e)
+    }
+  },
+  switchCharacter: async (commit: any, user: any) => {
+    try {
+      let result = await API.post('/session/characters/switch', user);
+      let session = {
+        status: true,
+        token: result.data.token,
+        account: commit.state.account,
+        character: result.data.character
+      }
+      localStorage.setItem('token', session.token)
+      API.defaults.headers.common['Authorization'] = session.token
+      localStorage.setItem('characters', JSON.stringify(result.data.characters))
+      await commit.commit("setUser", result.data.character);
+      return Promise.resolve()
+    } catch (e) {
+      commit.commit("errors", e);
+      return Promise.reject(e)
+    }
+  },
+  create_character: async (commit: any, user: any) => {
+    try {
+      console.log(commit.state.account)
+      let result = await API.post('/session/characters/create', user);
+      if (result.data.error) {
+        commit.commit("errors", result.data.error);
+        return Promise.reject(Error(result.data.error))
+      }
+      let session = {
+        status: true,
+        token: result.data.token,
+        account: commit.state.account,
+        character: result.data.character
+      }
+      localStorage.setItem('token', session.token)
+      API.defaults.headers.common['Authorization'] = session.token
+      localStorage.setItem('characters', JSON.stringify(result.data.characters))
+      commit.commit("errors", '');
+      commit.commit('auth_success', session)
+      await commit.commit("setUser", session.character);
       return Promise.resolve()
     } catch (e) {
       commit.commit("errors", e);
@@ -87,6 +146,9 @@ const actions = {
   }
 };
 const mutations = {
+  setUser(state: any, data: any) {
+    state.character = data
+  },
   auth_request(state: any) {
     state.status = 'loading';
   },

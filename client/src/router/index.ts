@@ -1,14 +1,16 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from '../store'
+import community from './community'
 import guest from './guest'
 import home from './home'
 import middlewarePipeline from './middlewarePipeline'
+import settings from './settings'
 
 Vue.use(VueRouter)
 
 let routes: any = []
-const Routes = [guest, home]
+const Routes = [guest, home, settings, community]
 
 Routes.forEach((parent: any) => {
   parent.forEach((child: any) => {

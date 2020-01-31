@@ -5,7 +5,7 @@
       <router-view />
     </b-container>
     <nectarFooter />
-    <client v-if="$store.main.state.settings" />
+    <client v-if="$store.main.state.settings && $store.Session.state.character" />
   </div>
 </template>
 

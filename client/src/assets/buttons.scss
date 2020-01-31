@@ -19,4 +19,7 @@
     &:hover {
         filter: brightness(1.1);
     }
+    &.btn-danger {
+        border-color:rgba(255,255,255,.4);
+    }
 }

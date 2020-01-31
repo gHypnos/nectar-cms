@@ -1,4 +1,5 @@
 import { getManager, getRepository } from 'typeorm';
+import Logger from '../../common/Logger';
 import { UserEntity } from '../entities';
 import { NectarDao } from './NectarDao';
 import moment = require('moment');
@@ -66,6 +67,15 @@ export class UserDao {
             .getOne();
 
         return result;
+    }
+
+    public static async login(character: any): Promise<void> {
+        Logger.user(character.username + ' logged in')
+        await getManager()
+            .createQueryBuilder()
+            .update(UserEntity)
+            .set({ last_login: moment().unix() })
+            .where("id = :id", { id: character.id }).execute();
     }
 
 }

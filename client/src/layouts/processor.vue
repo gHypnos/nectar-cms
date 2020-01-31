@@ -11,16 +11,19 @@
     <b-container>
       <router-view />
     </b-container>
+    <nectarFooter />
   </div>
 </template>
 <script>
 import login from "../components/nectar/login";
+import Footer from "../components/nectar/footer";
 export default {
   data() {
     return {};
   },
   components: {
-    login: login
+    login: login,
+    nectarFooter: Footer
   },
   methods: {}
 };

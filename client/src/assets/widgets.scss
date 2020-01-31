@@ -195,7 +195,63 @@ $imgs: '/assets/images';
             }
         }
     }
-
+}
+.characters {
+    margin-bottom:15px;
+    .character_grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, 206px);
+        grid-gap: 15px;
+        .character {
+            position: relative;
+            box-shadow: 0 0 5px 1px rgba(0,0,0,0.3);
+            background-color: #0b6395;
+            border: 3px solid #2685bc;
+            text-align: center;
+            &.add {
+                .avatar {
+                    border:0;
+                    i {
+                        font-size: 32px;
+                    }
+                }
+            }
+            .avatar {
+                background-color: #02353c;
+                border-bottom: 3px solid #2685bc;
+                padding:10px;
+                img {
+                    margin-top:-10px;
+                }
+            }
+            .info {
+                padding:10px; 
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+            .login {
+                display: none;
+                position:absolute;
+                top:-3px;
+                right:-3px;
+                bottom:-3px;
+                left:-3px;
+                background:rgba(0,0,0,.6);
+            }
+            &:hover {
+                .login {
+                    display: flex;
+                }
+            }
+        }
+    }
+}
+.login-form {
+    input {
+        border: 3px solid #275d8e;
+    border-radius: 5px;
+    box-shadow: inset 0 2px 0 0 #9ebecc,0 0 5px 1px rgba(0,0,0,0.3);
+    }
 }
 @media (max-width: 1000px) {
     .me-widget {

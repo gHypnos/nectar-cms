@@ -1,6 +1,6 @@
 <template>
-  <b-nav-form @submit.prevent="login" method="POST">
-    <b-form-input class="mr-sm-2" v-model="user.mail" :placeholder="$t('auth.email')" />
+  <b-nav-form @submit.prevent="login" method="POST" class="login-form">
+    <b-form-input class="mr-sm-2" v-model="user.mail" type="email" :placeholder="$t('auth.email')" />
     <b-form-input
       type="password"
       class="mr-sm-2"
@@ -28,10 +28,14 @@ export default {
   components: {},
   methods: {
     async login() {
-      try {
-        await store.Session.dispatch("login", this.user);
-        this.$router.push({ name: "Home" });
-      } catch (e) {}
+      if (!this.user.mail.includes("@")) {
+        this.$store.Session.commit("errors", "noMail2");
+      } else {
+        try {
+          await store.Session.dispatch("login", this.user);
+          this.$router.push({ name: "Home" });
+        } catch (e) {}
+      }
     }
   }
 };

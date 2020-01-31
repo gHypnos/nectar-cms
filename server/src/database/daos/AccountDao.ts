@@ -1,12 +1,20 @@
 import * as bcrypt from "bcryptjs";
 import { getManager, getRepository } from 'typeorm';
-import { AccountEntity } from '../entities';
+import { AccountEntity, UserEntity } from '../entities';
 
 export class AccountDao {
-    public static async findAccount(mail: string) {
+    public static async findAccountByMail(mail: string) {
         const entity = await getRepository(AccountEntity)
             .createQueryBuilder("account")
             .where("account.mail = :mail", { mail: mail })
+            .getOne();
+        return entity;
+    }
+
+    public static async findAccountById(id: number) {
+        const entity = await getRepository(AccountEntity)
+            .createQueryBuilder("account")
+            .where("account.id = :id", { id })
             .getOne();
         return entity;
     }
@@ -29,4 +37,14 @@ export class AccountDao {
         await getManager().update(AccountEntity, { id: owner_id }, { selected_user: character_id });
 
     }
+
+    public static async getCharacters(owner: number) {
+        if (!owner) return null;
+        const entity = await getRepository(UserEntity)
+            .createQueryBuilder("user")
+            .where("user.owner_id = :owner", { owner: owner })
+            .getMany();
+        return entity;
+    }
+
 }

@@ -13,11 +13,11 @@ export default class ClientController {
                 if (err) {
                     res.status(500).json()
                 } else {
-                    let id = decoded.id
+                    let id = decoded.character_id
 
                     let sso = uuid();
 
-                    await getManager().update(UserEntity, { id: decoded.id }, { auth_ticket: sso });
+                    await getManager().update(UserEntity, { id: id }, { auth_ticket: sso });
 
                     res.json(sso)
                 }

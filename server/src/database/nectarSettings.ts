@@ -50,6 +50,10 @@ export default class NectarSettings {
                     "value": "hr-500-45.hd-600-1.ch-630-64.lg-695-73.sh-725-1408"
                 },
                 {
+                    "key": "max_accounts_per_user",
+                    "value": "10"
+                },
+                {
                     "key": "starting_duckets",
                     "value": "3000"
                 },

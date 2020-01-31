@@ -3,5 +3,6 @@ import home from './home/en';
 
 export default {
   auth: auth,
-  home: home
+  home: home,
+  hotel: 'Hotel'
 };

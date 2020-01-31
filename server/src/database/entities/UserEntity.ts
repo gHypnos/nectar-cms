@@ -1,4 +1,3 @@
-import * as bcrypt from "bcryptjs";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('users')
@@ -16,10 +15,10 @@ export class UserEntity {
     @Column({ name: 'real_name', nullable: true })
     public real_name: string;
 
-    @Column({ name: 'password', select: false })
+    @Column({ name: 'password' })
     public password: string;
 
-    @Column({ name: 'mail', select: false })
+    @Column({ name: 'mail' })
     public mail: string;
 
     @Column({ name: 'mail_verified', select: false, default: 0 })
@@ -75,9 +74,5 @@ export class UserEntity {
 
     @Column({ name: 'home_room', default: 0 })
     public home_room: number;
-
-    checkIfUnencryptedPasswordIsValid(unencryptedPassword: string) {
-        return bcrypt.compareSync(unencryptedPassword, this.password);
-    }
 
 }

@@ -19,3 +19,22 @@
         }
     }
 }
+.modal-dialog {
+    .modal-content {
+        padding:0;
+        border: 3px solid #2685bc;
+        background-color: #0b6395;
+        border-radius: 10px;
+        padding:0;
+    }
+    .close {
+        color:#fff;
+    }
+    .modal-header {
+        background-color: #0e3955;
+        border-radius: 8px;
+        box-shadow: 0;
+        border:0;
+        margin:0;
+    }
+}

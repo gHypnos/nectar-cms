@@ -1,31 +1,40 @@
 <template>
   <b-row>
     <b-col lg="7">
-      <accounts />
+      <characters />
+      <news />
     </b-col>
-    <b-col lg="5">
+    <b-col lg="5" class="h-100 d-flex flex-column justify-content-center">
       <div
         class="alert alert-danger"
         v-if="$store.Session.state.error"
-      >{{$store.Session.state.error}}</div>
-      <b-card :header="$t('auth.register')" class="card-blue rnd-lg">
+      >{{$t('auth.error.'+$store.Session.state.error)}}</div>
+      <b-card :header="$t('auth.register')" class="card-blue w-100 rnd-lg align-self-center">
         <b-form @submit.prevent="sendRegister" method="POST" id="nectar-register">
           <div v-if="step === 1">
             <b-form-group>
-              <b-form-input size="md" placeholder="E-Mail" v-model="register.mail" />
-            </b-form-group>
-            <b-form-group>
+              <label>{{$t('auth.email')}}</label>
               <b-form-input
                 size="md"
-                placeholder="Password"
+                :placeholder="$t('auth.mail')"
+                type="email"
+                v-model="register.mail"
+              />
+            </b-form-group>
+            <b-form-group>
+              <label>{{$t('auth.password')}}</label>
+              <b-form-input
+                size="md"
+                :placeholder="$t('auth.password')"
                 type="password"
                 v-model="register.password"
               />
             </b-form-group>
             <b-form-group>
+              <label>{{$t('auth.passwordC')}}</label>
               <b-form-input
                 size="md"
-                placeholder="Password confirmation"
+                :placeholder="$t('auth.passwordC')"
                 type="password"
                 v-model="register.password_confirm"
               />
@@ -33,14 +42,32 @@
           </div>
           <div v-if="step === 2">
             <b-form-group>
+              <label>{{$t('auth.username')}}</label>
               <b-form-input size="md" placeholder="Username" v-model="register.username" />
             </b-form-group>
             <b-form-group>
+              <label>{{$t('auth.gender')}}</label>
               <b-form-radio-group v-model="register.gender" :options="genders" />
             </b-form-group>
           </div>
           <div class="form-group mb-0">
-            <b-button type="submit" variant="success w-100">{{$t('auth.register')}}</b-button>
+            <b-button
+              v-if="step===1"
+              type="button"
+              variant="primary w-100 mb-1"
+              @click="step = 2"
+            >{{$t('auth.continue')}}</b-button>
+            <b-button
+              v-if="step===2"
+              type="submit"
+              variant="success w-100 mb-1"
+            >{{$t('auth.register')}}</b-button>
+            <b-button
+              v-if="step === 2"
+              type="button"
+              variant="danger w-100"
+              @click="(step = 1)"
+            >{{$t('auth.back')}}</b-button>
           </div>
         </b-form>
       </b-card>
@@ -50,7 +77,9 @@
 
 <script>
 import store from "../store";
-import accounts from "../components/nectar/accounts";
+import characters from "../components/nectar/characters";
+import news from "../components/nectar/news";
+
 export default {
   data() {
     return {
@@ -69,28 +98,26 @@ export default {
     };
   },
   components: {
-    accounts
+    characters,
+    news
   },
   methods: {
     async sendRegister() {
       try {
         this.$store.Session.commit("errors", "");
         if (!this.register.mail) {
-          this.$store.Session.commit("errors", this.$t("auth.error.noMail"));
+          this.$store.Session.commit("errors", "noMail");
         } else if (!this.register.mail.includes("@")) {
-          this.$store.Session.commit("errors", this.$t("auth.error.noMail2"));
+          this.$store.Session.commit("errors", "noMail2");
         } else if (!this.register.password) {
-          this.$store.Session.commit("errors", this.$t("auth.error.noPw"));
+          this.$store.Session.commit("errors", "noPw");
         } else if (!this.register.password_confirm) {
-          this.$store.Session.commit("errors", this.$t("auth.error.noPwC"));
+          this.$store.Session.commit("errors", "noPwC");
         } else if (this.register.password_confirm !== this.register.password) {
-          this.$store.Session.commit("errors", this.$t("auth.error.noPwC2"));
+          this.$store.Session.commit("errors", "noPwC2");
         } else if (this.step === 2) {
           if (!this.register.username) {
-            this.$store.Session.commit(
-              "errors",
-              this.$t("auth.error.noUsername")
-            );
+            this.$store.Session.commit("errors", "noUsername");
           } else {
             await store.Session.dispatch("register", this.register);
             await store.Session.dispatch("register_character", this.register);

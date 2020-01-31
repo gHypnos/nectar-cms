@@ -12,14 +12,14 @@ export default class Register {
         let { mail, password, password_confirm } = req.body;
 
         if (!(mail && password && password_confirm)) {
-            res.status(500).json({});
+            res.json({ "error": "no_data" });
             return;
         }
 
-        const userRepo = await AccountDao.findAccount(mail);
+        const userRepo = await AccountDao.findAccountByMail(mail);
 
         if (userRepo) {
-            res.status(500).json({ "error": "Email taken" });
+            res.json({ "error": "email_taken" });
             return;
         }
 
@@ -31,7 +31,6 @@ export default class Register {
             { expiresIn: "3h" }
         );
 
-
         res.json({ token: token, user: accountRepo });
 
         Logger.user(accountRepo.mail + ' Registered');
@@ -40,20 +39,31 @@ export default class Register {
     static character = async (req: Request, res: Response) => {
         let { mail, password, password_confirm, username, gender } = req.body;
         if (!(username && gender && mail)) {
-            res.status(500).json({});
+            res.json({ "error": "no_data" });
             return;
         }
-        const account = await AccountDao.findAccount(mail);
+        const account = await AccountDao.findAccountByMail(mail);
 
         if (!account) {
-            res.status(500).json();
+            res.json({ "error": "no_account" });
             return;
+        }
+
+        if (username.length >= 20) {
+            res.json({ "error": "username_long" })
+            return
+        }
+
+        var usernameRegex = /^[a-zA-Z0-9]+$/;
+        if (!username.match(usernameRegex)) {
+            res.json({ "error": "username_invalid" })
+            return
         }
 
         const user = await UserDao.getUserByUsername(username);
 
         if (user) {
-            res.status(501).json();
+            res.json({ "error": "username_taken" });
             return;
         }
         const character = await UserDao.createUser(username, account.mail, account.password, gender, account.id, req.connection.remoteAddress);
@@ -67,8 +77,9 @@ export default class Register {
         await AccountDao.setCharacter(account.id, character.id);
         await UserCurrencyDao.createCurrency(character.id, 0, parseInt((await NectarDao.findSetting('starting_duckets')).value))
         await UserCurrencyDao.createCurrency(character.id, 5, parseInt((await NectarDao.findSetting('starting_diamonds')).value))
+        const characters = await AccountDao.getCharacters(account.id)
 
-        res.json({ token: token, account: account, character: character });
+        res.json({ token: token, account: account, character: character, characters: characters });
 
         Logger.user(username + '@' + account.mail + ' Registered');
 
