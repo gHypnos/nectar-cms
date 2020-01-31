@@ -73,7 +73,7 @@ export default {
   methods: {
     startTicking() {
       this.stopTicking();
-      this.interval = setInterval(() => this.tick(), 5000);
+      this.interval = setInterval(() => this.tick(), 3000);
     },
     stopTicking() {
       if (!this.interval) return;

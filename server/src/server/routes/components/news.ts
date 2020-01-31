@@ -8,6 +8,8 @@ export default class News {
             .createQueryBuilder("article")
             .innerJoin('article.author', 'user')
             .select(['article', 'user.username'])
+            .orderBy('article.id', 'DESC')
+            .limit(10)
             .getMany();
 
         res.json(news);
