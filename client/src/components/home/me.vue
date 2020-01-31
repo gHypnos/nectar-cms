@@ -38,15 +38,15 @@
         </b-button>
       </div>
     </b-col>
-    <b-col lg="12" class="p-0 m-0 row">
+    <b-col lg="12" class="p-0 m-0 row" v-if="currencies">
       <div class="currency credits col">
         <span>{{user.credits}}</span>
       </div>
       <div class="currency duckets col">
-        <span>{{user.currency[0].amount}}</span>
+        <span>{{currencies[0].amount}}</span>
       </div>
       <div class="currency diamonds col">
-        <span>{{user.currency[1].amount}}</span>
+        <span>{{currencies[1].amount}}</span>
       </div>
     </b-col>
   </b-row>
@@ -58,6 +58,7 @@ export default {
   data() {
     return {
       user: null,
+      currencies: null,
       wave: "",
       interval: null
     };
@@ -90,8 +91,9 @@ export default {
   mounted: async function() {
     try {
       let data = await this.$http.get("/components/me");
-      this.user = data.data;
-      this.$store.Session.commit("setUser", data.data);
+      this.user = data.data[0];
+      this.currencies = data.data[1];
+      this.$store.Session.commit("setUser", data.data[0]);
       return Promise.resolve();
     } catch (e) {
       return Promise.reject(e);

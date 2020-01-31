@@ -1,12 +1,14 @@
 import * as bcrypt from "bcryptjs";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { UserCurrencyEntity } from "./UserCurrencyEntity";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('users')
 export class UserEntity {
 
     @PrimaryGeneratedColumn({ name: 'id' })
     public id: number;
+
+    @Column({ name: 'owner_id', default: 0 })
+    public owner_id: number;
 
     @Column({ name: 'username', unique: true })
     public username: string;
@@ -73,9 +75,6 @@ export class UserEntity {
 
     @Column({ name: 'home_room', default: 0 })
     public home_room: number;
-
-    @OneToMany(type => UserCurrencyEntity, currencies => currencies.user)
-    public currencies: UserCurrencyEntity[];
 
     checkIfUnencryptedPasswordIsValid(unencryptedPassword: string) {
         return bcrypt.compareSync(unencryptedPassword, this.password);

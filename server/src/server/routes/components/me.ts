@@ -1,26 +1,24 @@
 import { Request, Response } from "express";
 import * as jwt from "jsonwebtoken";
-import { getRepository } from "typeorm";
 import { Config } from '../../../../config';
-import { UserEntity } from '../../../database/entities/UserEntity';
+import { UserCurrencyDao } from "../../../database/daos/UserCurrencyDao";
+import { UserDao } from "../../../database/daos/UserDao";
 
 export default class Me {
     static index = async (req: Request, res: Response) => {
         var token = req.headers.authorization;
-        jwt.verify(token, Config.jwtSecret, async function (err, decoded) {
+        jwt.verify(token, Config.jwtSecret, async function (err: string, decoded: any) {
             if (decoded) {
-                let id = decoded.id
-                let user = await getRepository(UserEntity)
-                    .createQueryBuilder("user")
-                    .where("user.id = :id", { id: id })
-                    .innerJoin('user.currencies', 'currency')
-                    .select(['user', 'currency'])
-                    .getOne();
-                res.json(user);
+                var data = []
+                let id = decoded.character_id
+                let user = await UserDao.getUserById(id)
+                let currencies = await UserCurrencyDao.loadCurrencies(id);
+                data.push(user)
+                data.push(currencies)
+                res.json(data);
             } else {
-                res.json('hi')
+                res.status(500).json(err)
             }
-
         });
     }
 }

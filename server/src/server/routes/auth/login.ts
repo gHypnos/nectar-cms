@@ -1,46 +1,47 @@
+import * as bcrypt from "bcryptjs";
 import { Request, Response } from "express";
 import * as jwt from "jsonwebtoken";
-import * as moment from 'moment';
-import { getManager, getRepository } from "typeorm";
 import { Config } from '../../../../config';
 import Logger from "../../../common/Logger";
-import { UserEntity } from '../../../database/entities/UserEntity';
+import { AccountDao } from "../../../database/daos/AccountDao";
+import { UserDao } from "../../../database/daos/UserDao";
 
 export default class Login {
     static index = async (req: Request, res: Response) => {
-        let { username, password } = req.body;
-        if (!(username && password)) {
+        let { mail, password } = req.body;
+        if (!(mail && password)) {
             res.status(400).json({});
             return;
         }
 
         //Get user from database
-        const userRepository = getRepository(UserEntity);
-        let user: UserEntity;
-        try {
-            user = await userRepository.findOneOrFail({ select: ['username', 'password', 'id', 'look', 'rank', 'motto', 'last_login', 'look', 'credits', 'pixels', 'home_room'], where: { username } });
-        } catch (error) {
+        const account = await AccountDao.findAccount(mail);
+
+        if (!account) {
             res.status(401).json();
-            return;
         }
 
         //Check if encrypted password match
-        if (!user.checkIfUnencryptedPasswordIsValid(password)) {
+        if (!bcrypt.compareSync(password, account.password)) {
+            res.status(401).json();
+            return;
+        }
+        const character = await UserDao.getUserById(account.selected_user)
+
+        if (!character) {
             res.status(401).json();
             return;
         }
 
         //Sing JWT, valid for 1 hour
         const token = jwt.sign(
-            { id: user.id, username: user.username, data: 'data' },
+            { id: account.id, mail: account.mail, character_id: account.selected_user },
             Config.jwtSecret,
             { expiresIn: "3h" }
         );
-        let auth = await await getManager()
-            .createQueryBuilder().update(UserEntity).set({ last_login: moment().unix() })
-            .where("id = :id", { id: user.id }).execute();
+
         //Send the jwt in the response
-        res.json({ token: token, user: user });
-        Logger.user(user.username + ' logged in ')
+        res.json({ token: token, account: account, character: character });
+        Logger.user(character.username + ' logged in')
     }
 }

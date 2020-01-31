@@ -1,5 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { UserEntity } from "./UserEntity";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 
 @Entity('users_currency')
@@ -16,9 +15,5 @@ export class UserCurrencyEntity {
 
     @Column({ name: 'amount', default: 0 })
     public amount: number;
-
-    @ManyToOne(type => UserEntity, { nullable: false, onDelete: 'CASCADE' })
-    @JoinColumn({ name: 'user_id' })
-    public user: UserEntity[];
 
 }

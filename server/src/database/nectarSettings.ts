@@ -42,6 +42,14 @@ export default class NectarSettings {
                     "value": "30000"
                 },
                 {
+                    "key": "starting_look_male",
+                    "value": "hr-100.hd-180-1.ch-210-66.lg-270-82.sh-290-81"
+                },
+                {
+                    "key": "starting_look_female",
+                    "value": "hr-500-45.hd-600-1.ch-630-64.lg-695-73.sh-725-1408"
+                },
+                {
                     "key": "starting_duckets",
                     "value": "3000"
                 },

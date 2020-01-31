@@ -3,6 +3,7 @@ export default {
   register: 'Register',
   password: 'Password',
   username: 'Username',
+  email: 'E-Mail',
   logout: 'Logout',
   male: 'Male',
   female: 'Female',

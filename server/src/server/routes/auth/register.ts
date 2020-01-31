@@ -1,69 +1,76 @@
-import * as bcrypt from "bcryptjs";
 import { Request, Response } from "express";
 import * as jwt from "jsonwebtoken";
-import * as moment from 'moment';
-import { getConnection, getManager, getRepository } from "typeorm";
 import { Config } from '../../../../config';
-import Logger from "../../../common/Logger";
+import Logger from '../../../common/Logger';
+import { AccountDao } from '../../../database/daos/AccountDao';
+import { NectarDao } from "../../../database/daos/NectarDao";
 import { UserCurrencyDao } from "../../../database/daos/UserCurrencyDao";
-import { SettingsEntity } from "../../../database/entities/SettingsEntity";
-import { UserEntity } from '../../../database/entities/UserEntity';
+import { UserDao } from "../../../database/daos/UserDao";
 
 export default class Register {
     static index = async (req: Request, res: Response) => {
-        let { username, mail, password, password_confirm, gender } = req.body;
-        if (!(username && password && mail && password_confirm && gender)) {
+        let { mail, password, password_confirm } = req.body;
+
+        if (!(mail && password && password_confirm)) {
             res.status(500).json({});
             return;
         }
-        const userRepository = await getRepository(UserEntity)
-            .createQueryBuilder("user")
-            .where("user.username = :name OR user.mail = :mail", { name: username, mail: mail })
-            .getOne();
 
-        if (userRepository) {
-            res.status(500).json({ "error": "Username taken" });
+        const userRepo = await AccountDao.findAccount(mail);
+
+        if (userRepo) {
+            res.status(500).json({ "error": "Email taken" });
             return;
         }
 
-        let settings = {}
-        let data = await getManager().createQueryBuilder(SettingsEntity, "key").getMany();
-        data.forEach(query => {
-            settings[query.key] = query.value
-        })
-        let newUser = await getConnection()
-            .createQueryBuilder()
-            .insert()
-            .into(UserEntity)
-            .values([
-                {
-                    username: username,
-                    mail: mail,
-                    password: bcrypt.hashSync(password, 8),
-                    gender: gender,
-                    last_login: moment().unix(),
-                    account_created: moment().unix(),
-                    motto: settings["starting_motto"],
-                    credits: settings["starting_credits"]
-                }
-            ])
-            .execute();
-
-        let newdata = newUser.generatedMaps[0];
-
-        await UserCurrencyDao.createCurrency(newdata.id, 0, settings["starting_duckets"])
-        await UserCurrencyDao.createCurrency(newdata.id, 5, settings["starting_diamonds"])
-
+        const accountRepo = await AccountDao.createAccount(mail, password);
 
         const token = jwt.sign(
-            { id: newUser.generatedMaps[0].id, username: newUser.generatedMaps[0].username, data: 'data' },
+            { id: accountRepo.id, mail: accountRepo.mail },
             Config.jwtSecret,
             { expiresIn: "3h" }
         );
 
-        res.json({ token: token, user: newUser.generatedMaps[0] });
 
-        Logger.user(username + ' Registered');
+        res.json({ token: token, user: accountRepo });
+
+        Logger.user(accountRepo.mail + ' Registered');
         return
+    }
+    static character = async (req: Request, res: Response) => {
+        let { mail, password, password_confirm, username, gender } = req.body;
+        if (!(username && gender && mail)) {
+            res.status(500).json({});
+            return;
+        }
+        const account = await AccountDao.findAccount(mail);
+
+        if (!account) {
+            res.status(500).json();
+            return;
+        }
+
+        const user = await UserDao.getUserByUsername(username);
+
+        if (user) {
+            res.status(501).json();
+            return;
+        }
+        const character = await UserDao.createUser(username, account.mail, account.password, gender, account.id, req.connection.remoteAddress);
+
+        const token = jwt.sign(
+            { id: account.id, mail: account.mail, character_id: character.id },
+            Config.jwtSecret,
+            { expiresIn: "3h" }
+        );
+
+        await AccountDao.setCharacter(account.id, character.id);
+        await UserCurrencyDao.createCurrency(character.id, 0, parseInt((await NectarDao.findSetting('starting_duckets')).value))
+        await UserCurrencyDao.createCurrency(character.id, 5, parseInt((await NectarDao.findSetting('starting_diamonds')).value))
+
+        res.json({ token: token, account: account, character: character });
+
+        Logger.user(username + '@' + account.mail + ' Registered');
+
     }
 }

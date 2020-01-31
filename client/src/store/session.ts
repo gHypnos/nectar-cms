@@ -7,8 +7,10 @@ Vue.use(Vuex)
 const state = {
   status: '',
   token: localStorage.getItem('token') || '',
-  user: {},
-  error: ''
+  character: '',
+  error: '',
+  account: '',
+  accounts: localStorage.getItem('accounts') || {}
 }
 const getters = {
   isLoggedIn(state: any) {
@@ -34,7 +36,8 @@ const actions = {
       let session = {
         status: true,
         token: result.data.token,
-        user: result.data.user
+        account: commit.state.account,
+        character: result.data.character
       }
 
       localStorage.setItem('token', session.token)
@@ -56,10 +59,21 @@ const actions = {
   register: async (commit: any, user: any) => {
     try {
       let result = await API.post('/authentication/register', user);
+      return Promise.resolve()
+    } catch (e) {
+      commit.commit("errors", e);
+      return Promise.reject(e)
+    }
+  },
+  register_character: async (commit: any, user: any) => {
+    try {
+      console.log(commit.state.account)
+      let result = await API.post('/authentication/register/character', user);
       let session = {
         status: true,
         token: result.data.token,
-        user: result.data.user
+        account: commit.state.account,
+        character: result.data.character
       }
       localStorage.setItem('token', session.token)
       API.defaults.headers.common['Authorization'] = session.token
@@ -73,16 +87,14 @@ const actions = {
   }
 };
 const mutations = {
-  setUser(state: any, data: any) {
-    state.user = data
-  },
   auth_request(state: any) {
     state.status = 'loading';
   },
   auth_success(state: any, data: any) {
     state.status = 'success';
     state.token = data.token;
-    state.user = data.user;
+    state.account = data.account;
+    state.character = data.character;
   },
   auth_error(state: any) {
     state.status = 'error';

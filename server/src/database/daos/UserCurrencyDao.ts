@@ -3,6 +3,7 @@ import { UserCurrencyEntity } from '../entities';
 
 export class UserCurrencyDao {
     public static async createCurrency(userId: number, type: number, amount: number = 0): Promise<UserCurrencyEntity> {
+        console.log('reached')
         const entity = new UserCurrencyEntity();
 
         entity.user_id = userId;
@@ -15,7 +16,7 @@ export class UserCurrencyDao {
     }
 
     public static async updateCurrency(userId: number, type: number, amount: number): Promise<void> {
-        if (!userId || typeof type !== 'number' || typeof amount !== 'number') return null;
+        if (!userId || !type || !amount) return null;
 
         await getManager().update(UserCurrencyEntity, { userId, type }, { amount });
     }

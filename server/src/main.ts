@@ -19,7 +19,7 @@ async function init(): Promise<void> {
     }
 
     catch (err) {
-        Logger.error(err.message || err);
+        console.log(err)
     }
 }
 

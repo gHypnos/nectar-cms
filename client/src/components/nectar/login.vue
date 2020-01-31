@@ -1,6 +1,6 @@
 <template>
   <b-nav-form @submit.prevent="login" method="POST">
-    <b-form-input class="mr-sm-2" v-model="user.username" :placeholder="$t('auth.username')" />
+    <b-form-input class="mr-sm-2" v-model="user.mail" :placeholder="$t('auth.email')" />
     <b-form-input
       type="password"
       class="mr-sm-2"
@@ -20,7 +20,7 @@ export default {
     return {
       store: store,
       user: {
-        username: "",
+        mail: "",
         password: ""
       }
     };

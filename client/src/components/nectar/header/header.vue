@@ -4,14 +4,14 @@
       <div class="align-self-center nectar-logo">
         <img src="/assets/images/logo.gif" />
       </div>
-      <div class="align-self-center float-right" v-if="$store.Session.state.user">
+      <div class="align-self-center float-right" v-if="$store.Session.state.character">
         <b-dropdown size="sm" variant="secondary dark-green">
           <template v-slot:button-content>
-            {{$store.Session.state.user.username}}
+            {{$store.Session.state.character.username}}
             <div
               class="dd-circle"
               v-if="$store.main.state.settings"
-              v-bind:style="'background-image:url(' + $store.main.state.settings.habbo_imager  + $store.Session.state.user.look + '&direction=3&head_direction=4&headonly=1);'"
+              v-bind:style="'background-image:url(' + $store.main.state.settings.habbo_imager  + $store.Session.state.character.look + '&direction=3&head_direction=4&headonly=1);'"
             />
           </template>
           <b-dropdown-item :to="{name:'Logout'}">

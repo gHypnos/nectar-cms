@@ -11,6 +11,7 @@ export default class Auth {
         this.router.post('/login', Login.index);
         this.router.get('/check', Check.index);
         this.router.post('/register', Register.index);
+        this.router.post('/register/character', Register.character);
 
         return this.router;
     }
