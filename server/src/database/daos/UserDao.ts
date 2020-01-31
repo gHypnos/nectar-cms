@@ -1,6 +1,6 @@
 import { getManager, getRepository } from 'typeorm';
 import Logger from '../../common/Logger';
-import { UserEntity } from '../entities';
+import { BanEntity, UserEntity } from '../entities';
 import { NectarDao } from './NectarDao';
 import moment = require('moment');
 
@@ -71,11 +71,34 @@ export class UserDao {
 
     public static async login(character: any): Promise<void> {
         Logger.user(character.username + ' logged in')
+
         await getManager()
             .createQueryBuilder()
             .update(UserEntity)
             .set({ last_login: moment().unix() })
             .where("id = :id", { id: character.id }).execute();
+    }
+
+    public static async checkBanned(user: UserEntity, req: any): Promise<BanEntity> {
+        if (!user) return null;
+        let tnow = moment().unix()
+        let ip = req.ip.split(":").pop()
+
+        console.log(user)
+
+        let result = await getRepository(BanEntity)
+            .createQueryBuilder("ban")
+            .where("ban.user_id = :id AND ban.ban_expire > :expire AND type = 'account'", { id: user.id, expire: tnow })
+            .getOne();
+
+        if (!result) {
+            result = await getRepository(BanEntity)
+                .createQueryBuilder("ban")
+                .where("ban.ip = :ip AND ban.ban_expire > :expire AND type = 'ip'", { ip: ip, expire: tnow })
+                .getOne();
+        }
+
+        return result;
     }
 
 }

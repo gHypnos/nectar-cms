@@ -10,7 +10,8 @@ const state = {
   character: '',
   error: '',
   account: '',
-  login: ''
+  login: '',
+  banned: ''
 }
 const getters = {
   isLoggedIn(state: any) {
@@ -102,6 +103,9 @@ const actions = {
   switchCharacter: async (commit: any, user: any) => {
     try {
       let result = await API.post('/session/characters/switch', user);
+      if (result.data.error.banned) {
+        commit.commit('banned', result.data.banned)
+      }
       let session = {
         status: true,
         token: result.data.token,
@@ -167,6 +171,9 @@ const mutations = {
   },
   errors(state: any, value: string) {
     state.error = value
+  },
+  banned(state: any, value: string) {
+    state.banned = value
   }
 };
 const Session = new Vuex.Store({

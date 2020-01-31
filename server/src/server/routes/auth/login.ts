@@ -34,10 +34,18 @@ export default class Login {
             return;
         }
 
+        const banned = await UserDao.checkBanned(character, req);
+
+        if (banned) {
+            res.json({ "error": "banned", "ban": banned });
+            return;
+        }
+
 
         const characters = await AccountDao.getCharacters(account.id)
 
         await UserDao.login(character);
+
 
         //Sing JWT, valid for 1 hour
         const token = jwt.sign(

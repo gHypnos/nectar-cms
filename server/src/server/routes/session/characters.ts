@@ -17,9 +17,18 @@ export default class Characters {
                 } else {
                     let id = decoded.character_id;
 
-                    const character = await UserDao.getUserById(req.body.id)
+
+                    const character = await UserDao.getUserById(req.body.id);
+
 
                     if (!character) return res.status(500).json()
+
+                    const banned = await UserDao.checkBanned(character, req);
+
+                    if (banned) {
+                        res.json({ "error": "banned", "ban": banned });
+                        return;
+                    }
 
                     await AccountDao.setCharacter(character.owner_id, character.id)
 
