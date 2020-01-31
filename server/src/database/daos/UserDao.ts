@@ -84,8 +84,6 @@ export class UserDao {
         let tnow = moment().unix()
         let ip = req.ip.split(":").pop()
 
-        console.log(user)
-
         let result = await getRepository(BanEntity)
             .createQueryBuilder("ban")
             .where("ban.user_id = :id AND ban.ban_expire > :expire AND type = 'account'", { id: user.id, expire: tnow })

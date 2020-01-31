@@ -9,6 +9,10 @@
         class="alert alert-danger"
         v-if="$store.Session.state.error"
       >{{$t('auth.error.'+$store.Session.state.error)}}</div>
+      <div class="alert alert-danger" v-if="$store.Session.state.banned">
+        <p>{{$t('auth.banned.until')}} {{$store.Session.state.banned.ban_expire | formatDate}}</p>
+        <p>{{$t('auth.banned.reason')}} {{$store.Session.state.banned.ban_reason}}</p>
+      </div>
       <b-card :header="$t('auth.register')" class="card-blue w-100 rnd-lg align-self-center">
         <b-form @submit.prevent="sendRegister" method="POST" id="nectar-register">
           <div v-if="step === 1">

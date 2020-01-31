@@ -32,5 +32,9 @@ export default {
   characters: {
     title: 'Your characters',
     disclaimer: '(based on your recent login)'
+  },
+  banned: {
+    until: 'You are banned until:',
+    reason: 'For reason:'
   }
 };

@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import API from '../api';
+import router from '../router';
 
 Vue.use(Vuex)
 
@@ -35,6 +36,11 @@ const actions = {
       localStorage.setItem('login_info', JSON.stringify({ mail: user.mail, password: user.password }))
       let result = await API.post('/authentication/login', user);
       if (result.data.error) {
+        console.log(result.data)
+        if (result.data.ban) {
+          commit.commit('banned', result.data.ban)
+          return Promise.reject(Error(result.data.error))
+        }
         commit.commit("errors", result.data.error);
         return Promise.reject(Error(result.data.error))
       }
@@ -80,6 +86,10 @@ const actions = {
       console.log(commit.state.account)
       let result = await API.post('/authentication/register/character', user);
       if (result.data.error) {
+        if (result.data.ban) {
+          commit.commit('banned', result.data.ban)
+          return Promise.reject(Error(result.data.error))
+        }
         commit.commit("errors", result.data.error);
         return Promise.reject(Error(result.data.error))
       }
@@ -103,8 +113,9 @@ const actions = {
   switchCharacter: async (commit: any, user: any) => {
     try {
       let result = await API.post('/session/characters/switch', user);
-      if (result.data.error.banned) {
-        commit.commit('banned', result.data.banned)
+      if (result.data.ban) {
+        commit.commit('banned', result.data.ban)
+        return Promise.reject(Error(result.data.error))
       }
       let session = {
         status: true,
@@ -172,8 +183,13 @@ const mutations = {
   errors(state: any, value: string) {
     state.error = value
   },
-  banned(state: any, value: string) {
-    state.banned = value
+  banned(state: any, value: any) {
+    state.banned = value;
+    state.status = '';
+    state.token = '';
+    state.character = '';
+    state.account = '';
+    router.push({ name: 'Login' })
   }
 };
 const Session = new Vuex.Store({
