@@ -83,7 +83,6 @@ export default {
     routeChildren() {
       const matched = this.$route.matched;
       const routePath = matched[matched.length - 1].path;
-      console.log(routePath);
       return this.getChildrenByPath(routePath);
     },
     actualize() {
@@ -112,7 +111,6 @@ export default {
 
             if (children) {
               const found = children.find(child => child.path === path);
-              console.log(found);
               if (found) {
                 children = found.children;
               }
