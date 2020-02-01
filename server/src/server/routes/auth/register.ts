@@ -66,7 +66,7 @@ export default class Register {
             res.json({ "error": "username_taken" });
             return;
         }
-        const character = await UserDao.createUser(username, account.mail, account.password, gender, account.id, req.connection.remoteAddress);
+        const character = await UserDao.createUser(username, account.mail, account.password, gender, account.id, req.ip.split(":").pop());
 
         const token = jwt.sign(
             { id: account.id, mail: account.mail, character_id: character.id },

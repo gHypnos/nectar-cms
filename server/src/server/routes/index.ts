@@ -11,15 +11,7 @@ export default class HttpRoutes {
     constructor() {
         this.router = Router();
         this.router.get('/settings', SettingsController.index);
-        this.router.use('/components', new Components, (req, res, next) => {
-            var token = req.headers.authorization;
-            if (!token) return res.status(401).send({ auth: false, message: 'No token provided.' });
-
-            jwt.verify(token, Config.jwtSecret, function (err, decoded) {
-                if (err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
-            });
-            next();
-        });
+        this.router.use('/components', new Components);
         this.router.use('/session', new Session, (req, res, next) => {
             var token = req.headers.authorization;
             if (!token) return res.status(401).send({ auth: false, message: 'No token provided.' });

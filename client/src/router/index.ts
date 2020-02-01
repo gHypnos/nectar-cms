@@ -25,7 +25,6 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  console.log(to, from, next)
   if (!to.path.includes('hotel') && !from.path.includes('hotel')) { store.main.commit('setLoading', true); }
 
   store.main.dispatch("loadSettings").then(() => {

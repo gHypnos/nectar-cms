@@ -11,12 +11,7 @@ export default class Check {
                 res.json('expired');
             } else {
                 let character = await UserDao.getUserById(decoded.character_id)
-                const banned = await UserDao.checkBanned(character, req);
 
-                if (banned) {
-                    res.json({ "error": "banned", "ban": banned });
-                    return;
-                }
                 res.json({ character: character });
             }
         });

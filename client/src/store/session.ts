@@ -36,11 +36,6 @@ const actions = {
       localStorage.setItem('login_info', JSON.stringify({ mail: user.mail, password: user.password }))
       let result = await API.post('/authentication/login', user);
       if (result.data.error) {
-        console.log(result.data)
-        if (result.data.ban) {
-          commit.commit('banned', result.data.ban)
-          return Promise.reject(Error(result.data.error))
-        }
         commit.commit("errors", result.data.error);
         return Promise.reject(Error(result.data.error))
       }
@@ -86,10 +81,6 @@ const actions = {
       console.log(commit.state.account)
       let result = await API.post('/authentication/register/character', user);
       if (result.data.error) {
-        if (result.data.ban) {
-          commit.commit('banned', result.data.ban)
-          return Promise.reject(Error(result.data.error))
-        }
         commit.commit("errors", result.data.error);
         return Promise.reject(Error(result.data.error))
       }
@@ -113,10 +104,6 @@ const actions = {
   switchCharacter: async (commit: any, user: any) => {
     try {
       let result = await API.post('/session/characters/switch', user);
-      if (result.data.ban) {
-        commit.commit('banned', result.data.ban)
-        return Promise.reject(Error(result.data.error))
-      }
       let session = {
         status: true,
         token: result.data.token,

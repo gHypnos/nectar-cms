@@ -23,13 +23,6 @@ export default class Characters {
 
                     if (!character) return res.status(500).json()
 
-                    const banned = await UserDao.checkBanned(character, req);
-
-                    if (banned) {
-                        res.json({ "error": "banned", "ban": banned });
-                        return;
-                    }
-
                     await AccountDao.setCharacter(character.owner_id, character.id)
 
                     const characters = await AccountDao.getCharacters(character.owner_id)

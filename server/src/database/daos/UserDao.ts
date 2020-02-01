@@ -81,6 +81,7 @@ export class UserDao {
 
     public static async checkBanned(user: UserEntity, req: any): Promise<BanEntity> {
         if (!user) return null;
+
         let tnow = moment().unix()
         let ip = req.ip.split(":").pop()
 
