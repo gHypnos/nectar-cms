@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { UserCurrencyEntity } from ".";
 
 @Entity('users')
 export class UserEntity {
@@ -74,5 +75,8 @@ export class UserEntity {
 
     @Column({ name: 'home_room', default: 0 })
     public home_room: number;
+
+    @OneToMany(type => UserCurrencyEntity, currencies => currencies.user)
+    public currencies: UserCurrencyEntity[];
 
 }

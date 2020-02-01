@@ -1,8 +1,9 @@
-import { getManager } from 'typeorm';
+import { getManager, getRepository } from 'typeorm';
 import { UserCurrencyEntity } from '../entities';
 
 export class UserCurrencyDao {
     public static async createCurrency(userId: number, type: number, amount: number = 0): Promise<UserCurrencyEntity> {
+        console.log('reached')
         const entity = new UserCurrencyEntity();
 
         entity.user_id = userId;
@@ -23,7 +24,10 @@ export class UserCurrencyDao {
     public static async loadCurrencies(userId: number): Promise<UserCurrencyEntity[]> {
         if (!userId) return null;
 
-        const results = await getManager().find(UserCurrencyEntity, { where: { userId } });
+        const results = await getRepository(UserCurrencyEntity)
+            .createQueryBuilder("currency")
+            .where('currency.user_id = :id', { id: userId })
+            .getMany();
 
         if (!results || !results.length) return null;
 

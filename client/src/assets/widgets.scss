@@ -253,6 +253,46 @@ $imgs: '/assets/images';
     box-shadow: inset 0 2px 0 0 #9ebecc,0 0 5px 1px rgba(0,0,0,0.3);
     }
 }
+.photo_grid {
+    display: grid;
+    margin-bottom:15px;
+    grid-template-columns: repeat(auto-fill, 266px);
+    grid-gap: 15px;
+    .photo {
+        position: relative;
+        box-shadow: 0 0 5px 1px rgba(0,0,0,0.3);
+        background-color: #0b6395;
+        border: 3px solid #2685bc;
+        text-align: center;
+        background-position: center;
+        .photo-preview {
+            height: 276px;
+            border-bottom: 3px solid #2685bc;
+        }
+        .info {
+            padding:10px; 
+            text-overflow: ellipsis;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            .nectar_imager {
+                margin-right: 12px;
+            }
+        }
+    }
+}
+.nectar_imager {
+    &.circle {
+        background-position: center;
+        width:50px;
+        height:50px;
+        border-radius: 50%;
+        box-shadow: 0 1px 0 2px rgba(0,0,0,.3);
+        background-color: #02353c;
+        border: 2px solid #267b91;
+        overflow: hidden;
+    }
+}
 @media (max-width: 1000px) {
     .me-widget {
         .partial {
