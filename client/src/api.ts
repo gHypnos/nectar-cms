@@ -1,6 +1,6 @@
-import Axios from 'axios';
-import express from 'express';
+import Axios, { AxiosResponse } from 'axios';
 import { Config } from '../config';
+import router from './router';
 import store from './store';
 
 const API = Axios.create({
@@ -13,11 +13,14 @@ API.interceptors.response.use(
   response => handler(response)
 )
 
-const handler = (res: express.response) => {
+const handler = (res: AxiosResponse) => {
   if (res.data.error) {
     if (res.data.error === 'banned') {
+      if (store.Session.getters.isLoggedIn) {
+        store.Session.dispatch('logout')
+      }
+      router.push({ name: 'Login' })
       store.Session.commit('banned', res.data.ban)
-      store.Session.dispatch('logout')
     }
   }
   return res

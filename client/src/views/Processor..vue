@@ -20,7 +20,7 @@
               <label>{{$t('auth.email')}}</label>
               <b-form-input
                 size="md"
-                :placeholder="$t('auth.mail')"
+                :placeholder="$t('auth.email')"
                 type="email"
                 v-model="register.mail"
               />

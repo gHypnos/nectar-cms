@@ -2,7 +2,7 @@
   <div class="d-flex flex-column h-100">
     <b-navbar toggleable="lg" type="dark" variant="secondary" class="mb-5">
       <b-container>
-        <b-navbar-brand href="#">
+        <b-navbar-brand :to="{name:'Login'}">
           <img src="/assets/images/logo.gif" />
         </b-navbar-brand>
         <login />

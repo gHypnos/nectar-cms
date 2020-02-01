@@ -9,7 +9,7 @@
             {{r.name}}
           </b-nav-item>
         </b-navbar-nav>
-        <b-navbar-nav v-if="variant == 'light'">
+        <b-navbar-nav v-if="variant == 'light' && $store.Session.state.character">
           <b-nav-item>
             <router-link class="btn btn-warning w-100" :to="{name:'Hotel'}">
               Enter Hotel

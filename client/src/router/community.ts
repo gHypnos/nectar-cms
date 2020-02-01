@@ -1,5 +1,5 @@
 import * as components from '../views';
-import auth from './middleware/auth';
+import any from './middleware/any';
 
 export default [
   {
@@ -11,7 +11,7 @@ export default [
       title: 'Settings',
       layout: 'app',
       middleware: [
-        auth
+        any
       ]
     }
   },
@@ -23,7 +23,7 @@ export default [
       title: 'Photos',
       layout: 'app',
       middleware: [
-        auth
+        any
       ]
     }
   },
@@ -35,7 +35,7 @@ export default [
       title: 'Rooms',
       layout: 'app',
       middleware: [
-        auth
+        any
       ]
     }
   }

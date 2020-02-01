@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import API from '../api';
-import router from '../router';
 
 Vue.use(Vuex)
 
@@ -176,7 +175,6 @@ const mutations = {
     state.token = '';
     state.character = '';
     state.account = '';
-    router.push({ name: 'Login' })
   }
 };
 const Session = new Vuex.Store({

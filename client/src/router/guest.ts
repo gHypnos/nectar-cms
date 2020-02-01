@@ -9,7 +9,6 @@ export default [
     meta: {
       title: "Login",
       layout: 'processor',
-      visible: false,
       middleware: [
         guest
       ]
