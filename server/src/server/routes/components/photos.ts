@@ -8,7 +8,7 @@ export default class Photos {
       .createQueryBuilder("photo")
       .innerJoin('photo.user', 'user')
       .select(['photo', 'user.username', 'user.look'])
-      .orderBy('photo.timestamp', 'DESC')
+      .orderBy('photo.id', 'DESC')
       .limit(200)
       .getMany();
 

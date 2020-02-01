@@ -71,8 +71,20 @@ export default {
               name: "Photos"
             },
             {
+              path: "/community/online",
+              name: "Online Users"
+            },
+            {
               path: "/community/rooms",
               name: "Rooms"
+            },
+            {
+              path: "/community/news",
+              name: "News"
+            },
+            {
+              path: "/community/Staff",
+              name: "Staff"
             }
           ]
         }

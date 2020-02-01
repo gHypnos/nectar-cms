@@ -14,7 +14,8 @@ module.exports = {
     'semi': 0,
     'quotes': 0,
     'space-before-function-paren': 0,
-    'vue/html-self-closing': 0
+    'vue/html-self-closing': 0,
+    "no-console": ["error", { "allow": ["warn", "error"] }]
   },
   parserOptions: {
     parser: '@typescript-eslint/parser'

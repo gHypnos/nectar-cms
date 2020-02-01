@@ -142,8 +142,10 @@ header{
                     padding:0;
                     display: block;
                     line-height: 50px;
-                    &.router-link-active{
+                    color:#fff;
+                    &:hover,&.router-link-active{
                         color: #6796b1 !important;
+                        font-weight: bold;
                     }  
                 }  
                 &:not(:last-child){
