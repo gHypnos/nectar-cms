@@ -11,7 +11,8 @@ const state = {
   error: '',
   account: '',
   login: '',
-  banned: ''
+  banned: '',
+  login_error: null
 }
 const getters = {
   isLoggedIn(state: any) {
@@ -22,20 +23,12 @@ const getters = {
   }
 };
 const actions = {
-  load: async (context: any) => {
-    try {
-      await context.commit('loadSession')
-      return Promise.resolve()
-    } catch (e) {
-      return Promise.reject(e)
-    }
-  },
   login: async (commit: any, user: any) => {
     try {
       localStorage.setItem('login_info', JSON.stringify({ mail: user.mail, password: user.password }))
       let result = await API.post('/authentication/login', user);
       if (result.data.error) {
-        commit.commit("errors", result.data.error);
+        commit.commit("login_errors", result.data.error);
         return Promise.reject(Error(result.data.error))
       }
       let session = {
@@ -48,6 +41,7 @@ const actions = {
       localStorage.setItem('token', session.token)
       localStorage.setItem('characters', JSON.stringify(result.data.characters))
       API.defaults.headers.common['Authorization'] = session.token
+      commit.commit("login_errors", '');
       commit.commit("errors", '');
       commit.commit('auth_success', session)
 
@@ -175,6 +169,10 @@ const mutations = {
     state.token = '';
     state.character = '';
     state.account = '';
+  },
+  login_errors(state: any, value: string) {
+    state.login_error = value;
+    console.log(value)
   }
 };
 const Session = new Vuex.Store({
