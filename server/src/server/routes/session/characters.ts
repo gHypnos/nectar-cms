@@ -105,7 +105,17 @@ export default class Characters {
         } catch (e) {
             console.log(e)
         }
-
-
+    }
+    static get = async (req: Request, res: Response) => {
+        var token = req.headers.authorization;
+        if (!token) { return res.json({ error: 'expired' }); }
+        jwt.verify(token, Config.jwtSecret, async function (err, decoded) {
+            if (err) {
+                return res.json({ error: 'expired' });
+            } else {
+                const character = await UserDao.getUserById(decoded.character_id)
+                return res.json({ character: character })
+            }
+        });
     }
 }

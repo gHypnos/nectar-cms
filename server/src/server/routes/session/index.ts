@@ -9,6 +9,7 @@ export default class Session {
         this.router = Router();
 
         this.router.get('/client', banned, Client.index);
+        this.router.get('/characters/get', Characters.get)
         this.router.post('/characters/switch', Characters.switch)
         this.router.post('/characters/create', banned, Characters.create)
 
