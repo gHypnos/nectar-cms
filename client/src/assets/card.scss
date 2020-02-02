@@ -16,6 +16,18 @@
         }
         .card-body {
             color:#fff;
+            padding:10px
+        }
+        form {
+            .form-text {
+                color:#7ecaee;
+            }
+            .form-dark-bg {
+                background-color: rgba(0,0,0,.2);
+                padding:8px;
+                border-radius: 3px;
+                margin-bottom:8px;
+            }
         }
     }
 }

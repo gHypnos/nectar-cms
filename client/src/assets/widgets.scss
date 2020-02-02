@@ -304,3 +304,8 @@ $imgs: '/assets/images';
         }
     }
 }
+.bullets,.arrow,.nectar_imager, .character_grid .character {
+    &:hover {
+        cursor: pointer;
+    }
+}

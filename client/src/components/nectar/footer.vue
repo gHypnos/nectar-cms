@@ -1,5 +1,5 @@
 <template>
-  <footer class="footer mt-auto py-3 dark" :class="{'auth':$store.Session.state.user}">
+  <footer class="footer py-3 dark" :class="{'auth':$store.Session.state.user}">
     <b-container>
       <b-row>
         <b-col sm="10" class="justify-content-center d-flex flex-column">
