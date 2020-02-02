@@ -37,11 +37,11 @@ export default {
   methods: {
     async login() {
       if (!this.user.mail) {
-        this.error = false;
+        this.$store.Session.commit("login_errors", "no_character");
       } else if (!this.user.mail.includes("@")) {
-        this.error = false;
+        this.$store.Session.commit("login_errors", "no_character");
       } else if (!this.user.password) {
-        this.error = false;
+        this.$store.Session.commit("login_errors", "no_password");
       } else {
         try {
           this.error = null;
