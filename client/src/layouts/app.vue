@@ -2,7 +2,7 @@
   <div class="d-flex flex-column h-100">
     <nectarHeader />
     <subHeader v-if="$store.main.state.subHeader" />
-    <b-container class="container mb-1">
+    <b-container class="mb-3">
       <router-view />
     </b-container>
     <nectarFooter />
