@@ -43,7 +43,7 @@ export default class Login {
         const token = jwt.sign(
             { id: account.id, mail: account.mail, character_id: account.selected_user },
             Config.jwtSecret,
-            { expiresIn: "3h" }
+            { expiresIn: "4h" }
         );
 
         res.json({ token: token, account: account, character: character, characters: characters });

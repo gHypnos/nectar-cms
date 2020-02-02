@@ -32,21 +32,6 @@ export default {
     layout() {
       return store.main.getters.layout;
     }
-  },
-  mounted: async function() {
-    if (store.Session.getters.isLoggedIn) {
-      try {
-        let data = await this.$http.get("/authentication/check");
-        if (data.data === "expired") {
-          await router.push({ name: "Logout" });
-        } else {
-          store.Session.commit("setUser", data.data.character);
-        }
-        return Promise.resolve();
-      } catch (e) {
-        return Promise.reject(e);
-      }
-    }
   }
 };
 </script>

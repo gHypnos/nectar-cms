@@ -1,7 +1,7 @@
 {
   "name": "nectar",
   "version": "1.0.0",
-  "description": "Habbo CMS",
+  "description": "Blue Blossom",
   "main": "index.js",
   "scripts": {
     "start:dev": "ts-node-dev --respawn --transpileOnly ./src/main.ts"

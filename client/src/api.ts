@@ -22,6 +22,9 @@ const handler = (res: AxiosResponse) => {
       router.push({ name: 'Login' })
       store.Session.commit('banned', res.data.ban)
     }
+    if (res.data.error === 'expired') {
+      router.push({ name: 'Logout' })
+    }
   }
   return res
 }

@@ -71,7 +71,7 @@ export default class Register {
         const token = jwt.sign(
             { id: account.id, mail: account.mail, character_id: character.id },
             Config.jwtSecret,
-            { expiresIn: "3h" }
+            { expiresIn: "4h" }
         );
 
         await AccountDao.setCharacter(account.id, character.id);

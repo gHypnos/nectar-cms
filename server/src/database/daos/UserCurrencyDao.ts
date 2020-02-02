@@ -3,7 +3,6 @@ import { UserCurrencyEntity } from '../entities';
 
 export class UserCurrencyDao {
     public static async createCurrency(userId: number, type: number, amount: number = 0): Promise<UserCurrencyEntity> {
-        console.log('reached')
         const entity = new UserCurrencyEntity();
 
         entity.user_id = userId;
