@@ -36,6 +36,7 @@ export default {
   mounted: async function() {
     if (store.Session.getters.isLoggedIn) {
       try {
+        await store.main.dispatch("loadSettings");
         let data = await this.$http.get("/session/characters/get");
         if (data.data.character) {
           store.Session.commit("setUser", data.data.character);

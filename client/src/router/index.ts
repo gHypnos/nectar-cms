@@ -24,21 +24,19 @@ const router = new VueRouter({
   routes
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   if (!to.path.includes('hotel') && !from.path.includes('hotel')) { store.main.commit('setLoading', true); }
+  if (!store.main.state.settings) { await store.main.dispatch("loadSettings") }
+  // This goes through the matched routes from last to first, finding the closest route with a title.
+  // eg. if we have /some/deep/nested/route and /some, /deep, and /nested have titles, nested's will be chosen.
+  const nearestWithTitle = to.matched.slice().reverse().find((r: { meta: { title: any; }; }) => r.meta && r.meta.title);
 
-  store.main.dispatch("loadSettings").then(() => {
-    // This goes through the matched routes from last to first, finding the closest route with a title.
-    // eg. if we have /some/deep/nested/route and /some, /deep, and /nested have titles, nested's will be chosen.
-    const nearestWithTitle = to.matched.slice().reverse().find((r: { meta: { title: any; }; }) => r.meta && r.meta.title);
+  // Find the nearest route element with meta tags.
+  const nearestWithMeta = to.matched.slice().reverse().find((r: { meta: { metaTags: any; }; }) => r.meta && r.meta.metaTags);
+  const previousNearestWithMeta = from.matched.slice().reverse().find((r: { meta: { metaTags: any; }; }) => r.meta && r.meta.metaTags);
 
-    // Find the nearest route element with meta tags.
-    const nearestWithMeta = to.matched.slice().reverse().find((r: { meta: { metaTags: any; }; }) => r.meta && r.meta.metaTags);
-    const previousNearestWithMeta = from.matched.slice().reverse().find((r: { meta: { metaTags: any; }; }) => r.meta && r.meta.metaTags);
-
-    // If a route with a title was found, set the document (page) title to that value.
-    if (nearestWithTitle) document.title = store.main.getters.settings.hotel_name + ' - ' + nearestWithTitle.meta.title;
-  });
+  // If a route with a title was found, set the document (page) title to that value.
+  if (nearestWithTitle) document.title = store.main.getters.settings.hotel_name + ' - ' + nearestWithTitle.meta.title;
   if (!to.meta.middleware) {
     return next()
   }

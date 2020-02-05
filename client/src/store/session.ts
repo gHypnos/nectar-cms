@@ -71,7 +71,6 @@ const actions = {
   register_character: async (commit: any, user: any) => {
     try {
       localStorage.setItem('login_info', JSON.stringify({ mail: user.mail, password: user.password }))
-      console.log(commit.state.account)
       let result = await API.post('/authentication/register/character', user);
       if (result.data.error) {
         commit.commit("errors", result.data.error);
@@ -115,7 +114,6 @@ const actions = {
   },
   create_character: async (commit: any, user: any) => {
     try {
-      console.log(commit.state.account)
       let result = await API.post('/session/characters/create', user);
       if (result.data.error) {
         commit.commit("errors", result.data.error);
@@ -172,7 +170,6 @@ const mutations = {
   },
   login_errors(state: any, value: string) {
     state.login_error = value;
-    console.log(value)
   }
 };
 const Session = new Vuex.Store({
